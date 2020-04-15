@@ -12,6 +12,8 @@ this.RedT = this.RedT || {};
 		this.ctx       = this.canvas.getContext('2d');
 		// Quản lý tải trước web
 		this.preload   = new RedT.PreLoad(this);
+		this.Event     = new RedT.Event();
+		this.regEvent();
 		//this.init();
 	}
 
@@ -23,6 +25,8 @@ this.RedT = this.RedT || {};
 		//this.ctx.save();
 		//this.start();
 		//this.loadScene();
+	}
+	p.regEvent = function(){
 	}
 
 	p.touch = function(){
