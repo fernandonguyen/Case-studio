@@ -1,187 +1,109 @@
 'use strict';
-
 this.RedT = this.RedT || {};
+(function(){
+	RedT.Node = function() {
+		this._onLoad    = false;
+		this.active     = true;
+		this._active    = true;
+		this.__active   = true;
 
-RedT.Node = function() {
-	this._onLoad    = false;
-	this.active     = true;
-	this._active    = true;
-	this.__active   = true;
+		// nhóm
+		this.group      = 'default';
 
-	// nhóm
-	this.group      = 'default';
+		this.color      = '#000000'; // màu sắc
 
-	this.color      = '#000000'; // màu sắc
+		this._scale     = 1;
 
-	this._scale     = 1;
+		this._scaleX    = 1;
+		this._scaleY    = 1;
 
-	this._scaleX    = 1;
-	this._scaleY    = 1;
+		this.__scaleX   = 1;
+		this.__scaleY   = 1;
 
-	this.__scaleX   = 1;
-	this.__scaleY   = 1;
+		// Ngiêng
+		this._skewX     = 0;
+		this._skewY     = 0;
 
+		this.__skewX    = 0;
+		this.__skewY    = 0;
 
-	// Mỏ neo (đặt vị trí tâm)
-	this._anchorX   = 0.5;
-	this._anchorY   = 0.5;
+		// Vị trí vẽ
+		this._x         = 0;    // vị trí node trong node cha
+		this._y         = 0;    // vị trí node trong node cha
 
-	// Ngiêng
-	this._skewX     = 0;
-	this._skewY     = 0;
+		this.__x        = 0;    // vị trí toàn bộ node tra trên màn hình
+		this.__y        = 0;    // vị trí toàn bộ node tra trên màn hình
 
-	this.__skewX    = 0;
-	this.__skewY    = 0;
+		// chiều rộng
+		this._width     = 0;    // chiều rộng của node
+		// chiều cao
+		this._height    = 0;    // chiều cao của node
 
-	// Vị trí vẽ
-	this._x         = 0;    // vị trí node trong node cha
-	this._y         = 0;    // vị trí node trong node cha
+		this.components      = [];   // các component
+		this.renderComponent = null;   // component render
 
-	this.__x        = 0;    // vị trí toàn bộ node tra trên màn hình
-	this.__y        = 0;    // vị trí toàn bộ node tra trên màn hình
+		this.children   = [];   // các node con
 
-	// chiều rộng
-	this._width     = 0;    // chiều rộng của node
-	// chiều cao
-	this._height    = 0;    // chiều cao của node
+		this.parent     = null; // node tra
 
-	this.components      = [];   // các component
-	this.renderComponent = null;   // component render
+		this.opacity    = 255;  // độ trong suốt
+		this._opacity   = 255;  // độ trong suốt của node hiện tại
+		this.__opacity  = 255;  // độ trong suốt node tra
 
-	this.children   = [];   // các node con
+		// đặt góc xoay
+		this._rotation  = 0;    // góc xoay
+		this.__rotation = 0;    // góc xoay của các node tra
 
-	this.parent     = null; // node tra
+		this.matrix     = new RedT.Matrix2D;
 
-	this.opacity    = 255;  // độ trong suốt
-	this._opacity   = 255;  // độ trong suốt của node hiện tại
-	this.__opacity  = 255;  // độ trong suốt node tra
+		// Mỏ neo (đặt vị trí tâm cho node 0-1)
+		this._anchorX   = 0.5;
+		this._anchorY   = 0.5;
 
-	// đặt góc xoay
-	this._rotation  = 0;    // góc xoay
-	this.__rotation = 0;    // góc xoay của các node tra
+		// vị trí tâm
+		this._regX      = 0;
+		this._regY      = 0;
 
-	this.matrix     = new RedT.Matrix2D;
+		this.name       = 'new Node';
+		this.type       = null;
 
-	this._regX      = 0;
-	this._regY      = 0;
+		RedT.PropertyNode(this);
+	}
 
-	this.name       = 'new Node';
-	this.type       = null;
-
-	// thay đổi width
-	Object.defineProperty(this, 'width',{
-		get: function() {return this._width},
-		set: function(value) {
-			this._width = Number(value);
-			this._regX = this._width/2;
-			this.updateTransform();
-			return value;
-		}
-	});
-
-	// thay đổi height
-	Object.defineProperty(this, 'height',{
-		get: function() {return this._height},
-		set: function(value) {
-			this._height = Number(value);
-			this._regY = this._height/2;
-			this.updateTransform();
-			return value;
-		}
-	});
-
-	// thay đổi vị trí con khi vị chí cha thay đổi (định dạng container)
-	Object.defineProperty(this, 'x',{
-		get: function() {return this._x},
-		set: function(value) {
-			this._x = Number(value);
-			this.setChildLocalPosition();
-			return value;
-		}
-	});
-
-	// thay đổi vị trí con khi vị chí cha thay đổi (định dạng container)
-	Object.defineProperty(this, 'y',{
-		get: function() {return this._y},
-		set: function(value) {
-			this._y = Number(value);
-			this.setChildLocalPosition();
-
-			return value;
-		}
-	});
-
-
-	// thay đổi scale con khi scale cha thay đổi (định dạng container)
-	Object.defineProperty(this, 'scale',{
-		get: function() {return this._scale},
-		set: function(value) {
-			this._scale  = Number(value);
-			this._scaleX = this._scale;
-			this._scaleY = this._scale;
-			this.setChildScale();
-			return value;
-		}
-	});
-
-	// thay đổi scale con khi scale cha thay đổi (định dạng container)
-	Object.defineProperty(this, 'scaleX',{
-		get: function() {return this._scaleX},
-		set: function(value) {
-			this._scaleX = Number(value);
-			this.setChildScale();
-			return value;
-		}
-	});
-
-	// thay đổi scale con khi scale cha thay đổi (định dạng container)
-	Object.defineProperty(this, 'scaleY',{
-		get: function() {return this._scaleY},
-		set: function(value) {
-			this._scaleY = Number(value);
-			this.setChildScale();
-			return value;
-		}
-	});
-
-	// thay đổi góc xoay
-	Object.defineProperty(this, 'rotation',{
-		get: function() {return this._rotation},
-		set: function(value) {
-			this._rotation = Number(value);
-			this.setChildRotation();
-			return value;
-		}
-	});
-
+	// Prototype
+	let p = RedT.Node.prototype;
+	// kiểm tra node có được vẽ trên canvas không
+	p.checkActive = function(){
+		return this._active && this.__active;
+	}
 
 	// Cập nhật Transform
-	this.updateTransform = function(){
+	p.updateTransform = function(){
 		this.matrix.updateTransform(this.getX(), this.getY(), this.getScaleX(), this.getScaleY(), this.getRotation(), this._skewX, this._skewY, this._regX, this._regY);
 	}
 
-	this.getX = function(){
+	p.getX = function(){
 		return this._x+this.__x;
 	}
 
-	this.getY = function(){
+	p.getY = function(){
 		return this._y+this.__y;
 	}
 
-	this.getScaleX = function(){
+	p.getScaleX = function(){
 		return this._scaleX*this.__scaleX;
 	}
 
-	this.getScaleY = function(){
+	p.getScaleY = function(){
 		return this._scaleY*this.__scaleY;
 	}
 
-	this.getRotation = function(){
+	p.getRotation = function(){
 		return this._rotation+this.__rotation;
 	}
 
 	// Tính lại vị trí trên màn hình của tất cả các children của children ...
-	this.setChildLocalPosition = function(){
+	p.setChildLocalPosition = function(){
 		this.updateTransform();
 		this.children.forEach((child)=>{
 			child.__x = 0;
@@ -192,7 +114,7 @@ RedT.Node = function() {
 	}
 
 	// Tính lại scale của tất cả các children của children ...
-	this.setChildScale = function(){
+	p.setChildScale = function(){
 		this.updateTransform();
 		this.children.forEach(function(child){
 			child.__scaleX = 1;
@@ -203,7 +125,7 @@ RedT.Node = function() {
 	}
 
 	// Tính lại scale của tất cả các children của children ...
-	this.setChildRotation = function(){
+	p.setChildRotation = function(){
 		this.updateTransform();
 		this.children.forEach(function(child){
 			child.__rotation = 0;
@@ -214,27 +136,27 @@ RedT.Node = function() {
 
 
 	// thêm children và đặt parent
-	this.addChild = function(child){
+	p.addChild = function(child){
 		child.parent = this;
 		this.children.push(child);
-
+		// lấy Scale cha cho các child
 		RedT.setParentScale(child, child.parent);
 		child.setChildScale();
-
+		// Lấy vị cha cho node hiện tại
 		RedT.setParentRotation(child, child.parent);
 		child.setChildRotation();
-
+		// lấy vị chí cha cho các child
 		RedT.setChildPosition(child, child.parent);
 		child.setChildLocalPosition();
 	}
 
-	this.getComponent = function(component){
+	p.getComponent = function(component){
 		return this.components.find(function(element){
 			return element instanceof component;
 		});
 	}
 
-	this.addComponent = function(component){
+	p.addComponent = function(component){
 		component.node = this;
 		this.components.push(component);
 	}
@@ -245,19 +167,12 @@ RedT.Node = function() {
 	 * @param:  Component
 	 * @return: boolean
 	*/
-	this.removeComponent = function(component){
+	p.removeComponent = function(component){
 		return void 0;
 	}
 
-	//
-	this.destroy = function(){
-		this.active = false;
-		if (this.parent !== null) {
-			//
-		}
-	}
-
-	this.draw = function(){
+	// vẽ 
+	p.draw = function(){
 		if (this.active === true) {
 			this.update && this.update();
 			let ctx = RedT.decorator.ctx;
@@ -282,7 +197,15 @@ RedT.Node = function() {
 		}
 		return void 0;
 	}
-}
+
+	// Phá hủy node
+	p.destroy = function(){
+		this.active = false;
+		if (this.parent !== null) {
+			//
+		}
+	}
+})();
 
 // vòng đời
 /**
