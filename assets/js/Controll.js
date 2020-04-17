@@ -1,6 +1,7 @@
 'use strict';
 this.RedT = this.RedT || {};
 (function(){
+	RedT.idNode = 1;
 	RedT.Controll = function(game) {
 		this.resources = {};    // lưu chữ tài nguyên web (images, audio)
 		this.isPlay    = false;
@@ -12,8 +13,7 @@ this.RedT = this.RedT || {};
 		this.ctx       = this.canvas.getContext('2d');
 		// Quản lý tải trước web
 		this.preload   = new RedT.PreLoad(this);
-		this.Event     = new RedT.Event();
-		this.regEvent();
+		this.Event     = new RedT.Event(this);
 		//this.init();
 	}
 
@@ -25,18 +25,6 @@ this.RedT = this.RedT || {};
 		//this.ctx.save();
 		//this.start();
 		//this.loadScene();
-	}
-	p.regEvent = function(){
-	}
-
-	p.touch = function(){
-	}
-
-	p.regEventTouch = function(){
-		//this.canvas.addEventListener('touchstat',  this.touch);
-		//this.canvas.addEventListener('touchenter', this.touch);
-		//this.canvas.addEventListener('touchend',   this.touch);
-		//this.canvas.addEventListener('touchcaner', this.touch);
 	}
 
 	// tải cảnh

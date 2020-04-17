@@ -92,10 +92,10 @@ RedT.Label = function(options = {}){
 			this.width  = maxWidth;
 			this.height = this.lineHeight*this._string.length;
 
-			//if (this._node) {
-				//this._node.width  = this.width;
-				//this._node.height = this.height;
-			//}
+			if (this._node) {
+				this._node.width  = this.width;
+				this._node.height = this.height;
+			}
 
 			return value;
 		}
@@ -111,8 +111,8 @@ RedT.Label = function(options = {}){
 		get: function() {return this._node},
 		set: function(value) {
 			this._node = value;
-			//this._node.width  = this.width;
-			//this._node.height = this.height;
+			this._node.width  = this.width;
+			this._node.height = this.height;
 			return value;
 		}
 	});

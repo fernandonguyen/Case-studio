@@ -1,7 +1,12 @@
 'use strict';
 this.RedT = this.RedT || {};
 (function(){
-	RedT.Node = function() {
+	RedT.Node = function(options = {}) {
+		Object.defineProperty(this, 'id', {
+			value: RedT.idNode++
+		});
+
+		//
 		this._onLoad    = false;
 		this.active     = true;
 		this._active    = true;
@@ -68,6 +73,9 @@ this.RedT = this.RedT || {};
 		this.type       = null;
 
 		RedT.PropertyNode(this);
+
+		// đặt tùy chọn
+		Object.assign(this, options);
 	}
 
 	// Prototype
@@ -134,9 +142,17 @@ this.RedT = this.RedT || {};
 		});
 	}
 
+	// Lấy danh sách child trước khi thêm vào con
+	p.addChild = function(children){
+		let paramArray = (children instanceof Array) ? children : arguments;
+		for (let i = 0; i < paramArray.length; i++) {
+			let child = paramArray[i];
+			this.addOneChild(child);
+		}
+	}
 
-	// thêm children và đặt parent
-	p.addChild = function(child){
+	// thêm một child
+	p.addOneChild = function(child){
 		child.parent = this;
 		this.children.push(child);
 		// lấy Scale cha cho các child
@@ -203,6 +219,20 @@ this.RedT = this.RedT || {};
 		this.active = false;
 		if (this.parent !== null) {
 			//
+		}
+	}
+
+
+	// Thêm sự kiện
+	p.on = function(type, callback, target){
+		this._bindEvent = this._bindEvent || new RedT.EventNode(this);
+		this._bindEvent.on(type, callback, target);
+	}
+
+	// Xóa sự kiện
+	p.off = function(type, callback, target){
+		if (this._bindEvent) {
+			this._bindEvent.off(type);
 		}
 	}
 })();
