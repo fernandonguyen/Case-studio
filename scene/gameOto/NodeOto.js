@@ -25,6 +25,9 @@ class NodeOto extends RedT.Node {
 
 	// Cập nhật trạng thái khi nhấn
 	otoMove(e){
+		if (gameOto.isStart == false) {
+			return;
+		}
 		let keyCode = e.keyCode;
 		let huongDi = '';
 		let ctrl    = e.ctrlKey;
@@ -71,19 +74,52 @@ class NodeOto extends RedT.Node {
 	// di chuyển xe
 	diChuyen(huongDi, ctrl){
 		let speed = ctrl ? this.ctrlSpeed : this.speed;
+		let check = RedT.decorator.canvas.height;
 		switch(huongDi){
 			case 'top':
 				this.y -= speed;
+				if (this.y <= 0) {
+					this.y = 0;
+				}
 				break;
 			case 'left':
 				this.x -= speed;
+				if (this.x <= 0) {
+					this.x = 0;
+				}
 				break;
 			case 'bottom':
 				this.y += speed;
+				if (this.y >= check) {
+					this.y = check;
+				}
 				break;
 			case 'right':
 				this.x += speed;
+				check = RedT.decorator.canvas.width;
+				if (this.x >= check) {
+					this.x = check;
+				}
 				break;
+		}
+	}
+
+	update(){
+		if (gameOto.isStart) {
+			gameOto.box.children.forEach(function(node){
+				let check = gameOto.checkCollisionOto(node);
+				if(check){
+					if (node.group == 'bom') {
+						// game kết thúc
+						gameOto.isStart = false;
+						gameOto.endGame();
+					}else{
+						gameOto.randomPoint(node);
+						gameOto.score++;
+						gameOto.scores.string = 'Điểm số: ' + gameOto.score;
+					}
+				}
+			});
 		}
 	}
 }

@@ -201,7 +201,14 @@ this.RedT = this.RedT || {};
 				this._onLoad = true;
 				this.onLoad   !== void 0 && this.onLoad();
 				this.onEnable !== void 0 && this.onEnable();
+				this.components.forEach((component)=>{
+					component.onEnable !== void 0 && component.onEnable();
+				});
 			}
+			this.update !== void 0 && this.update(1/60);
+			this.components.forEach((component)=>{
+				component.update !== void 0 && component.update(1/60);
+			});
 			this.components.forEach((component)=>{
 				component.draw !== void 0 && component.draw();
 			});
@@ -222,7 +229,6 @@ this.RedT = this.RedT || {};
 		}
 	}
 
-
 	// Thêm sự kiện
 	p.on = function(type, callback, target){
 		this._bindEvent = this._bindEvent || new RedT.EventNode(this);
@@ -236,12 +242,3 @@ this.RedT = this.RedT || {};
 		}
 	}
 })();
-
-// vòng đời
-/**
-RedT.Node.prototype.onLoad    = function(){};
-RedT.Node.prototype.start     = function(){};
-RedT.Node.prototype.onEnable  = function(){};
-RedT.Node.prototype.onDisable = function(){};
-RedT.Node.prototype.onDestroy = function(){};
-*/

@@ -2,8 +2,9 @@
 
 this.RedT = this.RedT || {};
 
-
-RedT.DEG_TO_RAD = Math.PI/180;
+RedT.TIME_FPS   = 1 / 60;
+RedT.DEG_TO_RAD = Math.PI / 180;
+RedT.RAD_TO_DEG = 180 / Math.PI;
 
 // đệ quy: tính vị trí trên màn hình
 RedT.setChildPosition = function(child, parent){
@@ -31,6 +32,17 @@ RedT.setParentRotation = function(child, parent){
 	}
 }
 
+// tạo độ trễ ms
 RedT.delayTime = function(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// độ sang radian
+RedT.degreesToRadians = function (angle) {
+    return angle * RedT.DEG_TO_RAD;
+};
+
+// radian sang độ
+RedT.radiansToDegrees = function (angle) {
+    return angle * RedT.RAD_TO_DEG;
+};
