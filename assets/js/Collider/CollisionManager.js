@@ -7,31 +7,6 @@ this.RedT = this.RedT || {};
 	RedT.CollisionStay  = 2; // Đang va chạm
 	RedT.CollisionExit  = 3; // Kết thúc va chạm
 
-	RedT.obbApplyMatrix = function(rect, mat4, out_bl, out_tl, out_tr, out_br) {
-	    let x      = rect.x;
-	    let y      = rect.y;
-	    let width  = rect.width;
-	    let height = rect.height;
-
-	    let ma  = mat4.a,  mb = mat4.b,   mc = mat4.c, md = mat4.d;
-	    let mtx = mat4.tx, mty = mat4.ty;
-
-	    let tx = ma * x + mc * y + mtx;
-	    let ty = mb * x + md * y + mty;
-	    let xa = ma * width;
-	    let xb = mb * width;
-	    let yc = mc * height;
-	    let yd = md * height;
-
-	    out_tl.x = tx;
-	    out_tl.y = ty;
-	    out_tr.x = xa + tx;
-	    out_tr.y = xb + ty;
-	    out_bl.x = yc + tx;
-	    out_bl.y = yd + ty;
-	    out_br.x = xa + yc + tx;
-	    out_br.y = xb + yd + ty;
-	};
 	// quản lý va chạm
 	RedT.CollisionManager = function(){
 		this.enabled = false;

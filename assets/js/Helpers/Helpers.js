@@ -53,27 +53,27 @@ RedT.radiansToDegrees = function(angle) {
 };
 
 RedT.obbApplyMatrix = function(rect, mat4, out_bl, out_tl, out_tr, out_br) {
-    let x = rect.x;
-    let y = rect.y;
-    let width = rect.width;
-    let height = rect.height;
+	let x      = rect.x;
+	let y      = rect.y;
+	let width  = rect.width;
+	let height = rect.height;
 
-    let m00 = mat4.a, m01 = mat4.b, m04 = mat4.c, m05 = mat4.d;
-    let m12 = mat4.tx, m13 = mat4.ty;
+	let ma  = mat4.a,  mb = mat4.b,   mc = mat4.c, md = mat4.d;
+	let mtx = mat4.tx, mty = mat4.ty;
 
-    let tx = m00 * x + m04 * y + m12;
-    let ty = m01 * x + m05 * y + m13;
-    let xa = m00 * width;
-    let xb = m01 * width;
-    let yc = m04 * height;
-    let yd = m05 * height;
+	let tx = ma * x + mc * y + mtx;
+	let ty = mb * x + md * y + mty;
+	let xa = ma * width;
+	let xb = mb * width;
+	let yc = mc * height;
+	let yd = md * height;
 
-    out_tl.x = tx;
-    out_tl.y = ty;
-    out_tr.x = xa + tx;
-    out_tr.y = xb + ty;
-    out_bl.x = yc + tx;
-    out_bl.y = yd + ty;
-    out_br.x = xa + yc + tx;
-    out_br.y = xb + yd + ty;
+	out_tl.x = tx;
+	out_tl.y = ty;
+	out_tr.x = xa + tx;
+	out_tr.y = xb + ty;
+	out_bl.x = yc + tx;
+	out_bl.y = yd + ty;
+	out_br.x = xa + yc + tx;
+	out_br.y = xb + yd + ty;
 };
