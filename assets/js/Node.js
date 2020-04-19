@@ -13,7 +13,7 @@ this.RedT = this.RedT || {};
 		this.__active   = true;
 
 		// nhóm
-		this.group      = 'default';
+		this._group     = 'default';
 
 		this.color      = '#000000'; // màu sắc
 
@@ -240,5 +240,18 @@ this.RedT = this.RedT || {};
 		if (this._bindEvent) {
 			this._bindEvent.off(type);
 		}
+	}
+
+	p.getContentSize = function(){
+		return new RedT.size(this._width, this._height)
+	}
+
+	// cập nhật tâm X
+	p._updateRegX = function(){
+		this._regX = this._width*this._anchorX;
+	}
+	// cập nhật tâm Y
+	p._updateRegY = function(){
+		this._regY = this._height*this._anchorY;
 	}
 })();

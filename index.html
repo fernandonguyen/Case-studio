@@ -26,28 +26,67 @@
 	</style>
 
 	<!-- Helpers -->
+	<!-- Định nghĩa và cam kết của Component -->
+	<script src="assets/js/Component/Component.js"></script>
+	<!-- (Helpers) Tạo vector 2 chiều -->
 	<script src="assets/js/Helpers/Vec2.js"></script>
+	<!-- (Helpers) Định nghĩa các đặc tính của nút -->
 	<script src="assets/js/Helpers/PropertyNode.js"></script>
+	<!-- (Manager) Quản lý sự kiện từ người dùng (Bàn phím, chuột, cảm ứng...) -->
 	<script src="assets/js/Helpers/Event.js"></script>
+	<!-- (Helpers) Quản lý sự kiện cho từng Node -->
 	<script src="assets/js/Helpers/EventNode.js"></script>
-
+	<!-- (Helpers) Các hằng số và hàm hỗ trợ -->
 	<script src="assets/js/Helpers/Helpers.js"></script>
+	<!-- (Helpers) Tính tọa độ 2D từ vị trí, góc và tỉ lệ thu phóng -->
 	<script src="assets/js/Helpers/Matrix2D.js"></script>
+	<!-- (Helpers) Tải tài nguyên hỗ trợ cảnh -->
 	<script src="assets/js/Helpers/PreLoad.js"></script>
+	<!-- (Helpers) Tạo khung chữ nhật -->
+	<script src="assets/js/Helpers/Rect.js"></script>
+	<!-- (Helpers) Tạo kích thước chữ nhật -->
+	<script src="assets/js/Helpers/Size.js"></script>
 
-	<!-- Component -->
+
+	<!-- Vật lý -->
+	<!-- (Manager) Quản lý môi trường vật lý -->
+	<script src="assets/js/Physics/PhysicsManager.js"></script>
+	<!-- (Component) Một cơ thể vật lý -->
+	<script src="assets/js/Physics/PhysicsBody.js"></script>
+
+	<!-- Va chạm -->
+	<!-- (Helpers) kiểm tra giao nhau, va chạm và khoảng cách của các hình trong canvas -->
+	<script src="assets/js/Collider/Intersect.js"></script> 
+	<!-- (Manager) Quản lý đối tượng va chạm -->
+	<script src="assets/js/Collider/CollisionManager.js"></script>
+	<!-- (Component) Liên hệ giữa các đối tượng va chạm-->
+	<script src="assets/js/Collider/ContactCollision.js"></script>
+	<!-- (Component) Đăng ký va chạm cho Node -->
+	<script src="assets/js/Collider/Collider.js"></script>
+	<!-- (Component) Định nghĩa hình tứ giác -->
+	<script src="assets/js/Collider/BoxCollider.js"></script>
+	<!-- (Component) Định nghĩa hình tròn -->
+	<script src="assets/js/Collider/CircleCollider.js"></script>
+	<!-- (Component) Định nghĩa hình đa giác -->
+	<script src="assets/js/Collider/PolygonCollider.js"></script>
+
+	<!-- các Component -->
+	<!-- (Component) In văn bản -->
 	<script src="assets/js/component/Label.js"></script>
+	<!-- (Component) In hình ảnh -->
 	<script src="assets/js/component/Sprite.js"></script>
 	
 	<script src="assets/js/Node.js"></script>
 	<script src="assets/js/Controll.js"></script>
+	<script src="assets/js/groupMatrix.js"></script>
 
-	<!-- Scene
+	<!-- Scene -->
+	<!-- Splash -->
 	<script src="scene/splash/assets.js"></script>
 	<script src="scene/splash/splash.js"></script>
-	 -->
 
-	<!-- Game Ô tô -->
+	<!-- Game Ô tô
+	-->
 	<script src="scene/gameOto/assets.js"></script>
 	<script src="scene/gameOto/gameOto.js"></script>
 	<script src="scene/gameOto/NodeOto.js"></script>

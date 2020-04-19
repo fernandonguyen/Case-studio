@@ -5,27 +5,29 @@ this.RedT = this.RedT || {};
 	RedT.Controll = function(game) {
 		this.resources = {};    // lưu chữ tài nguyên web (images, audio)
 		this.isPlay    = false;
-		this.fps       = 60;    // thiết lập tốc độ khung hình/s (hz)
+		this.fps       = 60;         // thiết lập tốc độ khung hình/s (hz)
+
+		this.timeFps   = 1/this.fps; // Thời gian vẽ hình
 
 		this.interval  = null;
 
 		this.canvas    = document.getElementById(game);
 		this.ctx       = this.canvas.getContext('2d');
+
 		// Quản lý tải trước web
-		this.preload   = new RedT.PreLoad(this);
-		this.Event     = new RedT.Event(this);
-		//this.init();
+		this.preload          = new RedT.PreLoad(this);
+
+		// Quản lý Sự kiện
+		this.Event            = new RedT.Event(this);
+
+		// Quản lý môi trường vật lý
+		this.PhysicsManager   = new RedT.PhysicsManager;
+
+		// Quản lý va trạm
+		this.CollisionManager = new RedT.CollisionManager;
 	}
 
 	let p = RedT.Controll.prototype;
-
-	p.init = function(){
-		//window.onresize = this.reportWindowSize.bind(this);
-		//this.reportWindowSize();
-		//this.ctx.save();
-		//this.start();
-		//this.loadScene();
-	}
 
 	// tải cảnh
 	p.loadScene = function(scene){
@@ -53,6 +55,7 @@ this.RedT = this.RedT || {};
 		}
 	}
 
+	// Bắt đầu vẽ, đặt khung hình/s
 	p.start = function(){
 		if (this.isPlay === false) {
 			this.isPlay   = true;
@@ -60,17 +63,9 @@ this.RedT = this.RedT || {};
 		}
 	}
 
-	p.restart = function(){
-		if (this.isPlay) {
-			this.isPlay = false;
-			this.stop();
-			//this.resetNode();
-			this.start();
-		}
-	}
-
-	p.resetNode = function(){
-		
+	p.stop = function(){
+		clearInterval(this.interval);
+		this.isPlay = false;
 	}
 	p.clear = function(){
 		//this.ctx.fillStyle = 'black';
@@ -78,15 +73,12 @@ this.RedT = this.RedT || {};
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
-	p.stop = function(){
-		clearInterval(this.interval);
-		this.isPlay = false;
-	}
-
 	// cập nhật khung hình
 	p.update = function(){
 		if (this.isPlay === true && this.Game !== void 0) {
 			this.clear();
+			//this.PhysicsManager.update();
+			this.CollisionManager.update();
 			this.Game.draw();
 		}else{
 			this.stop();

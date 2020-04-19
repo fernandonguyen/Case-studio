@@ -3,16 +3,40 @@ class NodeOto extends RedT.Node {
 	constructor() {
 		super();
 
-		this.addComponent(new RedT.Sprite(RedT.decorator.resources['spriteOto']));
-		this.x       = 550;
-		this.y       = 300;
-		this.scaleX  = 0.8;
-		this.scaleY  = 0.8;
+		this.x         = 550;
+		this.y         = 300;
+		this.scaleX    = 0.8;
+		this.scaleY    = 0.8;
 
 		this.speed     = 5;
 		this.ctrlSpeed = 15;
 
-		this.huongDi = 'right';
+		this.huongDi   = 'right';
+		this._group    = 'dan';
+
+		this.addComponent(new RedT.Sprite(RedT.decorator.resources['spriteOto']));
+		let collider = new RedT.BoxCollider;
+		collider.offset.x = this._regX;
+		collider.offset.y = this._regY;
+		collider.size.set(this.getContentSize());
+		this.addComponent(collider);
+	}
+
+	onCollisionEnter(collider){
+		if (collider.node.name === 'bom') {
+			gameOto.isStart = false;
+			gameOto.endGame();
+		}else{
+			gameOto.randomPoint(collider.node);
+			gameOto.score++;
+			gameOto.scores.string = 'Điểm số: ' + gameOto.score;
+		}
+	}
+	onCollisionStay(){
+		console.log('Đang va chạm');
+	}
+	onCollisionExit(){
+		console.log('Không va chạm');
 	}
 
 	onEnable(){
@@ -101,25 +125,6 @@ class NodeOto extends RedT.Node {
 					this.x = check;
 				}
 				break;
-		}
-	}
-
-	update(){
-		if (gameOto.isStart) {
-			gameOto.box.children.forEach(function(node){
-				let check = gameOto.checkCollisionOto(node);
-				if(check){
-					if (node.group == 'bom') {
-						// game kết thúc
-						gameOto.isStart = false;
-						gameOto.endGame();
-					}else{
-						gameOto.randomPoint(node);
-						gameOto.score++;
-						gameOto.scores.string = 'Điểm số: ' + gameOto.score;
-					}
-				}
-			});
 		}
 	}
 }

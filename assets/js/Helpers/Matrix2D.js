@@ -1,5 +1,6 @@
 this.RedT = this.RedT || {};
 (function(){
+	// Ma trận transform 4x4
 	RedT.Matrix2D = function() {
 		this.a  = 1;
 		this.b  = 0;
@@ -9,6 +10,18 @@ this.RedT = this.RedT || {};
 		this.ty = 0;
 	}
 	let p = RedT.Matrix2D.prototype;
+
+	// sao chép ma trận hiện tại sang ma trận a
+	p.copy = function(a) {
+		a.a  = this.a;
+		a.b  = this.b;
+		a.c  = this.c;
+		a.d  = this.d;
+		a.tx = this.tx;
+		a.ty = this.ty;
+		return void 0;
+	};
+
 	p.update = function(a, b, c, d, tx, ty) {
 		this.a  = a;
 		this.b  = b;

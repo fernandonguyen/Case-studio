@@ -6,7 +6,7 @@ RedT.PropertyNode = function(node) {
 		get: function() {return this._anchorX},
 		set: function(value) {
 			this._anchorX = Number(value);
-			this._regX   = this._width*this._anchorX;
+			this._updateRegX();
 			this.updateTransform();
 			return value;
 		}
@@ -17,7 +17,8 @@ RedT.PropertyNode = function(node) {
 		get: function() {return this._anchorY},
 		set: function(value) {
 			this._anchorY = Number(value);
-			this._regY    = this._height*this._anchorY;
+			this._updateRegY();
+			this._regY    = this._height*this._anchorY*this.getScaleY();
 			this.updateTransform();
 			return value;
 		}
@@ -28,7 +29,7 @@ RedT.PropertyNode = function(node) {
 		get: function() {return this._width},
 		set: function(value) {
 			this._width = Number(value);
-			this._regX  = this._width*this._anchorX;
+			this._updateRegX();
 			this.updateTransform();
 			return value;
 		}
@@ -39,7 +40,7 @@ RedT.PropertyNode = function(node) {
 		get: function() {return this._height},
 		set: function(value) {
 			this._height = Number(value);
-			this._regY   = this._height*this._anchorY;
+			this._updateRegY();
 			this.updateTransform();
 			return value;
 		}
@@ -61,7 +62,6 @@ RedT.PropertyNode = function(node) {
 		set: function(value) {
 			this._y = Number(value);
 			this.setChildLocalPosition();
-
 			return value;
 		}
 	});

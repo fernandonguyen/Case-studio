@@ -29,7 +29,7 @@ this.gameOto = this.gameOto || {};
 			this.box = new RedT.Node;
 
 			// insert oto
-			this.oto = new NodeOto;
+			this.oto       = new NodeOto;
 
 			// điểm số
 			let nodeScores = new RedT.Node({
@@ -48,28 +48,32 @@ this.gameOto = this.gameOto || {};
 			RedT.decorator.Game = this.Game;
 			this.insertObstacles();
 			this.insertHeart();
+
+			// kích hoạt va chạm
+			RedT.decorator.CollisionManager.enabled = true;
 		}
 	}
 
 	gameOto.randomPoint = function(node){
 		let x = (Math.random()* (RedT.decorator.canvas.width - 20))+20;
 		let y = (Math.random()* (RedT.decorator.canvas.height - 20))+20;
-		node.x = x;
-		node.y = y;
-		let check = this.checkCollisionAll(node);
+		let check = this.checkCollisionAll(node, x, y);
 		if (check) {
 			this.randomPoint(node);
+		}else{
+			node.x = x;
+			node.y = y;
 		}
 	}
 
-	gameOto.checkCollisionAll = function(node) {
-		let check = this.checkCollision(node, this.oto);
+	gameOto.checkCollisionAll = function(node, x, y) {
+		let check = this.checkCollision(node, this.oto, x, y);
 		if(check)
 			return true;
 
 		let result = false;
 		this.box.children.forEach(function(nodeInBox){
-			let check = this.checkCollision(nodeInBox, node);
+			let check = this.checkCollision(node, nodeInBox, x, y);
 			if(check){
 				result = true;
 			}
@@ -101,12 +105,19 @@ this.gameOto = this.gameOto || {};
 		let node = new RedT.Node({
 			scaleX: 0.5,
 			scaleY: 0.5,
-			group: 'bom',
+			_group: 'bot',
+			name:   'bom',
 		});
-		let bom     = new RedT.Sprite(RedT.decorator.resources['bom']);
+		let bom = new RedT.Sprite(RedT.decorator.resources['bom']);
 		node.addComponent(bom);
-		this.box.addChild(node);
 
+		let collider = new RedT.CircleCollider;
+		collider.radius = 22;
+		collider.offset.x = node._regX;
+		collider.offset.y = node._regY;
+		node.addComponent(collider);
+
+		this.box.addChild(node);
 		this.randomPoint(node);
 	}
 
@@ -114,36 +125,29 @@ this.gameOto = this.gameOto || {};
 		let node = new RedT.Node({
 			scaleX: 0.7,
 			scaleY: 0.7,
-			group: 'heart',
+			_group: 'bot',
 		});
 		let heart     = new RedT.Sprite(RedT.decorator.resources['heart']);
 		node.addComponent(heart);
-		this.box.addChild(node);
 
+		let collider = new RedT.CircleCollider;
+		collider.offset.x = node._regX;
+		collider.offset.y = node._regY;
+		node.addComponent(collider);
+
+		this.box.addChild(node);
 		this.randomPoint(node);
 	}
 
 	// Kiểm tra va chạm giữa các node 
-	gameOto.checkCollision = function(node1, node2) {
+	gameOto.checkCollision = function(node1, node2, x, y) {
 		if (node1 == node2) {
 			return false;
 		}
-	    if (node1._x >= node2._x + node2._width ||
-	    	node1._x + node1._width <= node2.x ||
-	    	node1._y >= node2._y + node2._height ||
-	    	node1._y + node1._height <= node2._y)
-	    {
-	        return false;
-	    } else {
-	        return true;
-	    }
-	}
-
-	gameOto.checkCollisionOto = function(node2) {
-	    if (this.oto._x >= node2._x + node2._width/2 ||
-	    	this.oto._x + this.oto._width/2 <= node2.x ||
-	    	this.oto._y >= node2._y + node2._height/2 ||
-	    	this.oto._y + this.oto._height/2 <= node2._y)
+	    if (x >= node2._x + node2._width ||
+	    	x + node1._width <= node2.x ||
+	    	y >= node2._y + node2._height ||
+	    	y + node1._height <= node2._y)
 	    {
 	        return false;
 	    } else {

@@ -2,9 +2,14 @@
 
 this.RedT = this.RedT || {};
 
-RedT.TIME_FPS   = 1 / 60;
-RedT.DEG_TO_RAD = Math.PI / 180;
-RedT.RAD_TO_DEG = 180 / Math.PI;
+RedT.TIME_FPS            = 1/60;
+RedT.DEG_TO_RAD          = Math.PI/180;
+RedT.RAD_TO_DEG          = 180/Math.PI;
+RedT.PTM_RATIO           = 32;
+RedT.VELOCITY_ITERATIONS = 10;
+RedT.POSITION_ITERATIONS = 10;
+RedT.MAX_ACCUMULATOR     = 1/5;
+
 
 // đệ quy: tính vị trí trên màn hình
 RedT.setChildPosition = function(child, parent){
@@ -34,15 +39,41 @@ RedT.setParentRotation = function(child, parent){
 
 // tạo độ trễ ms
 RedT.delayTime = function(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// độ sang radian
-RedT.degreesToRadians = function (angle) {
-    return angle * RedT.DEG_TO_RAD;
+// chuyển độ sang radian
+RedT.degreesToRadians = function(angle) {
+	return angle * RedT.DEG_TO_RAD;
 };
 
-// radian sang độ
-RedT.radiansToDegrees = function (angle) {
-    return angle * RedT.RAD_TO_DEG;
+// chuyển radian sang độ
+RedT.radiansToDegrees = function(angle) {
+	return angle * RedT.RAD_TO_DEG;
+};
+
+RedT.obbApplyMatrix = function(rect, mat4, out_bl, out_tl, out_tr, out_br) {
+    let x = rect.x;
+    let y = rect.y;
+    let width = rect.width;
+    let height = rect.height;
+
+    let m00 = mat4.a, m01 = mat4.b, m04 = mat4.c, m05 = mat4.d;
+    let m12 = mat4.tx, m13 = mat4.ty;
+
+    let tx = m00 * x + m04 * y + m12;
+    let ty = m01 * x + m05 * y + m13;
+    let xa = m00 * width;
+    let xb = m01 * width;
+    let yc = m04 * height;
+    let yd = m05 * height;
+
+    out_tl.x = tx;
+    out_tl.y = ty;
+    out_tr.x = xa + tx;
+    out_tr.y = xb + ty;
+    out_bl.x = yc + tx;
+    out_bl.y = yd + ty;
+    out_br.x = xa + yc + tx;
+    out_br.y = xb + yd + ty;
 };
