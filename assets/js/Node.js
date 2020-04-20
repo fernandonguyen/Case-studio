@@ -193,6 +193,7 @@ this.RedT = this.RedT || {};
 			this.update && this.update();
 			let ctx = RedT.decorator.ctx;
 			ctx.setTransform(this.matrix.a, this.matrix.b, this.matrix.c, this.matrix.d, this.matrix.tx, this.matrix.ty);
+
 			ctx.fillStyle   = this.color;
 			ctx.globalAlpha = this.opacity/255;
 
@@ -253,5 +254,24 @@ this.RedT = this.RedT || {};
 	// cập nhật tâm Y
 	p._updateRegY = function(){
 		this._regY = this._height*this._anchorY;
+	}
+
+	// các chữ nhật đỉnh của nút
+	p.rectPoint = function(){
+		this._rect = this._rect || RedT.rect();
+		this._points = this._points || [RedT.v2(), RedT.v2(), RedT.v2(), RedT.v2()];
+
+		this._rect.x      = this.getX();
+		this._rect.y      = this.getY();
+		this._rect.width  = this._width;
+		this._rect.height = this._height;
+
+		RedT.obbApplyMatrix(this._rect, this.matrix,
+			this._points[0],
+			this._points[1],
+			this._points[2],
+			this._points[3]);
+
+		return this._points;
 	}
 })();

@@ -5,6 +5,7 @@ this.RedT = this.RedT || {};
 	RedT.EventNode = function(node){
 		this.event = {};
 		this.node  = node;
+		this.enter = false;
 	};
 
 	let p = RedT.EventNode.prototype;
@@ -26,12 +27,32 @@ this.RedT = this.RedT || {};
 		}
 	}
 
+	p._handleStart = function(){
+	}
+
+	//
+	p._handleMove = function(){
+	}
+	//
+	p._handleEnd = function(){
+	}
+
 	// Nhận sự kiện từ trung tâm quản lý sự kiện
 	p.setEvent = function(event){
 		let type     = event.type;
 		let getEvent = this.event[type];
+
+		if (type === 'mousedown') {
+			this.enter = !0;
+		}
+		if (this.enter === false && ((type === 'mousemove' && this.event['mousedown'] !== void 0) || type === 'mouseup'))
+			return;
+
 		if (getEvent !== void 0) {
 			getEvent.callback(event);
+		}
+		if (type === 'mouseup') {
+			this.enter = !1;
 		}
 	}
 })()

@@ -7,11 +7,17 @@ this.RedT = this.RedT || {};
 		this.pointers         = {};
 		//this.count           = 0;
 
+		// Bàn phím
 		this.regEventKeyboard = [];
+		// danh sách phím được nhấn
+		this.listKey          = {};
 
-		// 
+		// Cảm ứng
 		this.regTouch         = [];
 		this.idTouch          = {};
+
+		// Chuột
+		this.impacting        = null;
 
 		this.init();
 	}
@@ -26,10 +32,9 @@ this.RedT = this.RedT || {};
 		this.decorator.canvas.addEventListener('touchcancel', this.touch.bind(this), false);
 
 		// Sự kiện chuột
-		this.decorator.canvas.addEventListener('mousestart',  this.mouse.bind(this), false);
+		this.decorator.canvas.addEventListener('mousedown',   this.mouse.bind(this), false);
 		this.decorator.canvas.addEventListener('mousemove',   this.mouse.bind(this), false);
-		this.decorator.canvas.addEventListener('mouseend',    this.mouse.bind(this), false);
-		this.decorator.canvas.addEventListener('mousecancel', this.mouse.bind(this), false);
+		this.decorator.canvas.addEventListener('mouseup',     this.mouse.bind(this), false);
 
 		// sự kiện nhấn
 		document.body.addEventListener('keydown', this.keyboard.bind(this), false);
@@ -42,21 +47,18 @@ this.RedT = this.RedT || {};
 		if (this.preventDefault){
 			e.preventDefault && e.preventDefault();
 		}
+
+		this.listKey[e.keyCode] = e;
 		if (this.regEventKeyboard.length > 0) {
 			let EventNode = this.regEventKeyboard[this.regEventKeyboard.length-1];
-			if (EventNode !== void 0) {
-				EventNode.setEvent(e);
-			}
+			let listKey = Object.values(this.listKey);
+			listKey.forEach(function(evt){
+				EventNode.setEvent(evt);
+			});
 		}
-	}
-
-	// tọa độ trên khung canvas
-	p.pointTouch = function(e){
-		let pointCanvas = this.decorator.canvas.getBoundingClientRect();
-		return {
-			x: e.clientX-pointCanvas.left,
-			y: e.clientY-pointCanvas.top,
-		};
+		if (e.type === 'keyup') {
+			delete this.listKey[e.keyCode];
+		}
 	}
 
 	//
@@ -69,7 +71,7 @@ this.RedT = this.RedT || {};
 		for (let i= 0, l=touches.length; i<l; i++) {
 			let touch = touches[i];
 			let id    = touch.identifier;
-			//console.log(this.pointTouch(touch), touch.pageX, touch.pageY);
+			//console.log(RedT.pointTouch(touch), touch.pageX, touch.pageY);
 			/**
 			if (touch.target != this.decorator.canvas) { continue; }
 			if (type == 'touchstart') {
@@ -88,8 +90,29 @@ this.RedT = this.RedT || {};
 		if (this.preventDefault){
 			e.preventDefault && e.preventDefault();
 		}
-		//console.log(e);
-        //console.log(this.pointTouch(e));
+	    let type = e.type;
+		if (this.impacting !== null) {
+			this.impacting.setEvent(e);
+		}else{
+			let check = false;
+			let i, l = this.regTouch.length;
+	        let point = RedT.pointTouch(e);
+			for(i = l-1; i >= 0; i--){
+				let nodeEvent = this.regTouch[i];
+				let hitTest = RedT.Intersect.pointInPolygon(point, nodeEvent.node.rectPoint());
+				if(hitTest){
+					this.impacting = nodeEvent;
+					this.impacting.setEvent(e);
+					break;
+				}
+			}
+			if (check === false) {
+				this.impacting = null;
+			}
+		}
+		if (type === 'mouseup') {
+			this.impacting = null;
+		}
 	}
 
 	//

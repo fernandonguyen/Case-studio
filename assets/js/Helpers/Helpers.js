@@ -77,3 +77,12 @@ RedT.obbApplyMatrix = function(rect, mat4, out_bl, out_tl, out_tr, out_br) {
 	out_br.x = xa + yc + tx;
 	out_br.y = xb + yd + ty;
 };
+
+// tọa độ trên khung canvas
+RedT.pointTouch = function(e){
+	let pointCanvas = this.decorator.canvas.getBoundingClientRect();
+	return {
+		x: e.clientX-pointCanvas.left,
+		y: e.clientY-pointCanvas.top,
+	};
+}
