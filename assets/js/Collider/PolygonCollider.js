@@ -6,11 +6,7 @@ this.RedT = this.RedT || {};
     class PolygonCollider extends RedT.Collider {
         constructor() {
             super();
-            this.threshold = {
-                default: 1,
-                serializable: false,
-                visible: false
-            };
+
             this._offset = RedT.v2(0, 0);
 
             // vị chí

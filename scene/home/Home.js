@@ -11,29 +11,21 @@ this.Home = this.Home || {};
 			this.Game = new RedT.Node({name:'camera', _anchorX: 0, _anchorY: 0, width:RedT.decorator.canvas.width, height:RedT.decorator.canvas.height});
 
 			// background
-			this.background = new RedT.Node({
-				x: -297.5,
-				y: -400,
-				_anchorX: 0,
-				_anchorY: 0,
-			});
-			let sprite = new RedT.Sprite(RedT.decorator.resources['home_background']);
-			this.background.addComponent(sprite);
+			this.background = new HomeBackground;
 
 			// ground
-			this.ground = new RedT.Node({
-				x: -899,
-				y: -240,
-				_anchorX: 0,
-				_anchorY: 0,
-			});
-			let sprite_ground = new RedT.Sprite(RedT.decorator.resources['home_ground']);
-			this.ground.addComponent(sprite_ground);
+			this.ground     = new Ground;
 
 			this.Game.addChild(this.background, this.ground);
 
 			this.ground._onChangerX = this._onChangerX.bind(this);
 			this.ground._onChangerY = this._onChangerY.bind(this);
+
+			// Test
+			this.player = new Player;
+
+			this.ground.addChild(this.player);
+
 
 			// X tối đa
 			this.maxX = 0;
@@ -42,13 +34,17 @@ this.Home = this.Home || {};
 		}
 		RedT.decorator.Game = this.Game;
 
+		// kích hoạt va chạm
+		RedT.decorator.PhysicsManager.enabled = true;
+		RedT.decorator.CollisionManager.enabled = true;
+
 		// Quay camera
 		this.regCamera();
 	};
 	Home.regCamera = function() {
-		this.Game.on('mousedown',  this.onMouseStart, this);
-		this.Game.on('mousemove',  this.onMouseMove,  this);
-		this.Game.on('mouseup',    this.onMouseEnd,   this);
+		this.Game.on('mousedown', this.onMouseStart, this);
+		this.Game.on('mousemove', this.onMouseMove,  this);
+		this.Game.on('mouseup',   this.onMouseEnd,   this);
 	}
 
 	Home.onMouseStart = function(e) {
@@ -76,8 +72,8 @@ this.Home = this.Home || {};
 		this.ground.x = x;
 		this.ground.y = y;
 	}
-	Home.onMouseEnd   = function(e) {
-	}
+
+	Home.onMouseEnd = function(e) {}
 
 	Home._onChangerX = function(){
 		let backgroundScaleX = Math.abs(this.ground.x/(this.maxX-this.minX));

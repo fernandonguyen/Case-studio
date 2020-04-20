@@ -9,9 +9,7 @@ this.RedT = this.RedT || {};
 		update(){
 			let _preload = RedT.decorator.preload;
 			let _process = _preload.process();
-			console.log(_process);
 			splash.progress_sprite.mask = _process;
-			//splash.mask
 		}
 	}
 	RedT.SplashLoad = SplashLoad;

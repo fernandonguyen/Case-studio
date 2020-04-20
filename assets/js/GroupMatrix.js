@@ -8,13 +8,27 @@
 
 (function(RedT) {
 	RedT.groupMatrix = {
-		// đạn va chạm với ...
+		player: {
+			bom:    true,
+			ground: true,
+		},
 		dan: {
-			bot: true,
+			bot:    true,
+			ground: true,
 		},
-		// bot va chạm với ...
 		bot: {
-			dan: true,
+			dan:    true,
+			ground: true,
 		},
+		bom: {
+			player: true,
+			ground: true,
+		},
+		ground: {
+			player: true,
+			dan:    true,
+			bot:    true,
+			bom:    true,
+		}
 	};
 })(RedT);

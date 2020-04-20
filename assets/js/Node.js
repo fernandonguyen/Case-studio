@@ -208,6 +208,7 @@ this.RedT = this.RedT || {};
 			}
 			this.update !== void 0 && this.update(1/60);
 			this.components.forEach((component)=>{
+				component.draw !== void 0 && component.draw();
 				component.update !== void 0 && component.update(1/60);
 			});
 			this.components.forEach((component)=>{
@@ -251,12 +252,13 @@ this.RedT = this.RedT || {};
 	p._updateRegX = function(){
 		this._regX = this._width*this._anchorX;
 	}
+
 	// cập nhật tâm Y
 	p._updateRegY = function(){
 		this._regY = this._height*this._anchorY;
 	}
 
-	// các chữ nhật đỉnh của nút
+	// Các điểm mô tả hình của note
 	p.rectPoint = function(){
 		this._rect = this._rect || RedT.rect();
 		this._points = this._points || [RedT.v2(), RedT.v2(), RedT.v2(), RedT.v2()];

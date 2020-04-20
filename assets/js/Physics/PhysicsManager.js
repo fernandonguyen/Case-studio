@@ -20,13 +20,15 @@ this.RedT = this.RedT || {};
 		let bodies = this._bodies;
 		for (let i = 0, l = bodies.length; i < l; i++) {
 			let body = bodies[i];
-			let node = body.node;
+			if (body.type === 1) {
+				let node = body.node;
 
-			// Tác dụng trọng lực
-			body.linearVelocity.x += this.gravity.x;
-			body.linearVelocity.y += this.gravity.y;
-			node.x += body.linearVelocity.x;
-			node.y += body.linearVelocity.y;
+				// Tác dụng trọng lực
+				body.linearVelocity.x += this.gravity.x;
+				body.linearVelocity.y += this.gravity.y;
+				node.x += body.linearVelocity.x;
+				node.y += body.linearVelocity.y;
+			}
 		}
 	}
 

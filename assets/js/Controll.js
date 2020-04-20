@@ -80,7 +80,7 @@ this.RedT = this.RedT || {};
 	p.update = function(){
 		if (this.isPlay === true && this.Game !== void 0) {
 			this.clear();
-			//this.PhysicsManager.update();
+			this.PhysicsManager.update();
 			this.CollisionManager.update();
 			this.Game.draw();
 		}else{

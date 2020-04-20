@@ -40,7 +40,14 @@ this.RedT = this.RedT || {};
 		*/
 		/**
 		onCollisionEnter(collider1, collider2){
-			// 
+			if (this.type === 1) {
+				if (collider1.type === 2) {
+
+				}else{
+					
+				}
+				console.log('va chạm');
+			}
 		}
 		onCollisionStay(){
 		}
