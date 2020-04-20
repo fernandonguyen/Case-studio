@@ -8,33 +8,51 @@ this.RedT = this.RedT || {};
 			this.active = true;
 			this._node  = null;
 
-			// type: loại cơ thể
+			// type: loại vật thể
 			// 1: chuyển dộng
 			// 2: cố định
-			this.type   = '1';
+			this.type = 1;
 
-			// hệ số nảy ngược lại khi va trạm
+			// vận tốc
+			this.linearVelocity  = RedT.v2(0, 0);
 
-			// tỉ lệ trọng lực
-	        this._gravityScale =   1;
+			// Giảm vật tốc tuyến tính
+			this.linearDamping   = 0;
 
-			// ma sát (0 - 1)
-	        //this._linearDamping =  0;
+			// Quy mô trọng lực tác dụng nên vật thể này
+			this.gravityScale    = 1;
 
-	        // ma sát góc (0 - 1)
-	        //this._angularDamping = 0;
+			// Ma sát khi va chạm với các vật thể khác
+			this.friction        = 0;
 
-	        // vận tốc
-	        this._linearVelocity = RedT.v2(0, 0);
+			// Vận tốc góc
+			//this.angularVelocity = 0;
 
-	        // vận tốc góc
-	        //this._angularVelocity: 0;
+			// Giảm vật tốc góc tuyến tính
+			//this.angularDamping = 0;
 
-	        // loại bỏ xoay khi va chạp
-	        //this._fixedRotation:   false;
+			// loại bỏ xoay
+			//this.fixedRotation   = false;
+		}
 
-	        // tích lũy của trọng lực
-	        this._gravityAccumulation = RedT.v2(0, 0);
+		/**
+		 * thực hiện sử lý khi 2 vật thể va chạm
+		*/
+		/**
+		onCollisionEnter(collider1, collider2){
+			// 
+		}
+		onCollisionStay(){
+		}
+		onCollisionExit(){
+		}
+		*/
+
+		onEnable (){
+			RedT.decorator.PhysicsManager.addBody(this);
+		}
+		onDisable(){
+			RedT.decorator.PhysicsManager.removeBody(this);
 		}
 	}
 

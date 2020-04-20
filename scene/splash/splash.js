@@ -3,9 +3,6 @@ this.splash = this.splash || {};
 splash.isLoadAsset = false;
 splash.Game        = null;
 
-splash.loadScene = function() {
-};
-
 // thiết lập cảnh
 splash.init = function() {
 	if (this.Game === null) {
@@ -33,28 +30,20 @@ splash.init = function() {
 
 		// progress
 		let progress = new RedT.Node;
-		let progress_sprite = new RedT.Sprite(RedT.decorator.resources['progress']);
-		progress.addComponent(progress_sprite);
-		progress_sprite.mask = 0;
+		this.progress_sprite = new RedT.Sprite(RedT.decorator.resources['progress']);
+		progress.addComponent(this.progress_sprite);
+		this.progress_sprite.mask = 0;
 		progress.y = -2;
 		progress_bg.addChild(progress);
 
-		console.log(progress_sprite);
-
-		/**
-		let children2 = new RedT.Node;
-		this.Game.addChild(children2);
-
-
-		let Label = new RedT.Label({
-			string: 'Cái gì đó.\nhaha'
-		});
-
-		let Sprite2 = new RedT.Sprite(RedT.decorator.resources['splash_background']);
-		children2.addComponent(Sprite2);
-
-		children2.addComponent(Label);
-		*/
+		setTimeout(function(){
+			this.loadHome();
+		}.bind(this), 500);
 	}
 	RedT.decorator.Game = this.Game;
+};
+
+splash.loadHome = function() {
+	this.Game.addComponent(new RedT.SplashLoad);
+	RedT.decorator.loadScene(Home);
 };

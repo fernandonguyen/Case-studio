@@ -15,6 +15,10 @@ this.RedT = this.RedT || {};
 		this.callback = callback;
 	}
 
+	p.process = function(){
+		return this.controll.preLoad_process/this.controll.preLoad_total;
+	}
+
 	// Tải
 	p.load = function(asset){
 		if (!!asset || asset.name === void 0 || asset.src === void 0 || asset.type === void 0) {
@@ -49,7 +53,7 @@ this.RedT = this.RedT || {};
 			this.controll.resources[asset.name] = image;
 			image.onload = function(e){
 				this.controll.preLoad_process++;
-				if (this.controll.preLoad_process/this.controll.preLoad_total === 1 && this.callback) {
+				if (this.process() === 1 && this.callback) {
 					this.callback('success');
 					delete this.callback;
 					this.controll.scene.isLoadAsset = true;

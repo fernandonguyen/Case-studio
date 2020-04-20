@@ -49,8 +49,11 @@ this.RedT = this.RedT || {};
 	p.insertScene = function(status){
 		switch(status){
 			case 'success':
-				this.scene.init();
-				this.start();
+				setTimeout(function(){
+					this.scene.init();
+					this.start();
+					this.preload.controll.preLoad_process = 0;
+				}.bind(this), 500);
 				break;
 		}
 	}
