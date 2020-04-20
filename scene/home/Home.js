@@ -32,6 +32,9 @@ this.Home = this.Home || {};
 
 			this.Game.addChild(this.background, this.ground);
 
+			this.ground._onChangerX = this._onChangerX.bind(this);
+			this.ground._onChangerY = this._onChangerY.bind(this);
+
 			// X tối đa
 			this.maxX = 0;
 			// X tối thiểu
@@ -49,42 +52,40 @@ this.Home = this.Home || {};
 	}
 
 	Home.onMouseStart = function(e) {
-		this.moveCamera = !0;
 		let point = RedT.pointTouch(e);
 		this.offset.x = point.x-this.ground._x;
 		this.offset.y = point.y-this.ground._y;
 	}
 	Home.onMouseMove  = function(e) {
-		if (this.moveCamera) {
-			let point = RedT.pointTouch(e);
-			let x = point.x-this.offset.x;
-			let y = point.y-this.offset.y;
-			if(y < -240){
-				y = -240;
-			}
-			if(y > 240){
-				y = 240;
-			}
-
-			if(x > this.maxX){
-				x = this.maxX;
-			}
-			if(x < this.minX){
-				x = this.minX;
-			}
-			this.ground.x = x;
-			this.ground.y = y;
-
-			let backgroundScaleX = Math.abs(this.ground.x/(this.maxX-this.minX));
-			let backgroundScaleY = (this.ground.y+240)/480;
-
-			this.background.x = -(backgroundScaleX*595);
-			this.background.y = backgroundScaleY*400-400;
+		let point = RedT.pointTouch(e);
+		let x = point.x-this.offset.x;
+		let y = point.y-this.offset.y;
+		if(y < -240){
+			y = -240;
 		}
+		if(y > 240){
+			y = 240;
+		}
+
+		if(x > this.maxX){
+			x = this.maxX;
+		}
+		if(x < this.minX){
+			x = this.minX;
+		}
+		this.ground.x = x;
+		this.ground.y = y;
 	}
 	Home.onMouseEnd   = function(e) {
-		this.moveCamera = !1;
-		console.log('0');
+	}
+
+	Home._onChangerX = function(){
+		let backgroundScaleX = Math.abs(this.ground.x/(this.maxX-this.minX));
+		this.background.x = -(backgroundScaleX*595);
+	}
+	Home._onChangerY = function(){
+		let backgroundScaleY = (this.ground.y+240)/480;
+		this.background.y = backgroundScaleY*400-400;
 	}
 
 })(Home);

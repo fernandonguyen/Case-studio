@@ -52,6 +52,7 @@ RedT.PropertyNode = function(node) {
 		set: function(value) {
 			this._x = Number(value);
 			this.setChildLocalPosition();
+			this._onChangerX !== void 0 && this._onChangerX();
 			return value;
 		}
 	});
@@ -62,6 +63,7 @@ RedT.PropertyNode = function(node) {
 		set: function(value) {
 			this._y = Number(value);
 			this.setChildLocalPosition();
+			this._onChangerY !== void 0 && this._onChangerY();
 			return value;
 		}
 	});
