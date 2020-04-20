@@ -35,6 +35,7 @@ this.RedT = this.RedT || {};
 		this.decorator.canvas.addEventListener('mousedown',   this.mouse.bind(this), false);
 		this.decorator.canvas.addEventListener('mousemove',   this.mouse.bind(this), false);
 		this.decorator.canvas.addEventListener('mouseup',     this.mouse.bind(this), false);
+		//this.decorator.canvas.addEventListener('mouseout',     this.mouse.bind(this), false);
 
 		// sự kiện nhấn
 		document.body.addEventListener('keydown', this.keyboard.bind(this), false);
