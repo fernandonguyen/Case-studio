@@ -26,6 +26,15 @@ this.Home = this.Home || {};
 
 			this.ground.addChild(this.player);
 
+			this.luc_bg = new RedT.Node({x:RedT.decorator.canvas.width/2, y:RedT.decorator.canvas.height-30});
+			this.luc_bg.addComponent(new RedT.Sprite(RedT.decorator.resources['luc_bg']));
+
+			this.luc_fire_bg = new RedT.Node({x:19, y:1});
+			this.luc_fire_bg.sprite = new RedT.Sprite(RedT.decorator.resources['luc_fire_bg'])
+			this.luc_fire_bg.addComponent(this.luc_fire_bg.sprite);
+			this.luc_bg.addChild(this.luc_fire_bg);
+			this.luc_fire_bg.sprite.mask = 0;
+			this.Game.addChild(this.luc_bg);
 
 			// X tối đa
 			this.maxX = 0;
@@ -35,7 +44,8 @@ this.Home = this.Home || {};
 		RedT.decorator.Game = this.Game;
 
 		// kích hoạt va chạm
-		RedT.decorator.PhysicsManager.enabled = true;
+		RedT.decorator.PhysicsManager.gravity.y = 0.3;
+		RedT.decorator.PhysicsManager.enabled   = true;
 		RedT.decorator.CollisionManager.enabled = true;
 
 		// Quay camera

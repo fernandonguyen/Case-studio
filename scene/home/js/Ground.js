@@ -8,6 +8,7 @@ class Ground extends RedT.Node {
 		this._anchorX = 0;
 		this._anchorY = 0;
 		this._group = 'ground';
+		this.name   = 'ground';
 
 		this.addComponent(new RedT.Sprite(RedT.decorator.resources['home_ground']));
 

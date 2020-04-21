@@ -38,11 +38,11 @@ class Graphics extends RedT.Component {
 	}
 
 	ellipse (cx, cy, rx, ry) {
-		//Helper.ellipse(this, cx, cy, rx, ry);
+		RedT.ellipse(this, cx, cy, rx, ry);
 	}
 
 	circle (cx, cy, r) {
-		//Helper.ellipse(this, cx, cy, r, r);
+		RedT.ellipse(this, cx, cy, r, r);
 	}
 
 	rect (x, y, w, h) {

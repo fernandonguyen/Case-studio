@@ -12,9 +12,8 @@ class Player extends RedT.Node {
 		this.huong     = 'right';
 		this.isKeyDown = false;
 
-
 		this.keyDownAngle = -1;
-		this.speedAngle   = .2;
+		this.speedAngle   = .3;
 		// Góc bắn hiện tại
 		this.currentAngle = 10;
 		// Góc bắn tối thiểu
@@ -24,19 +23,27 @@ class Player extends RedT.Node {
 
 		this._lineRotation = -1;
 
+		// Tốc độ chạy lực, điều khiển lực
+		this.isKeySpace      = false;
+		this.forceSpeed      = 0.3;
+		this.currentOldForce = 10;
+		this.currentForce    = 0;
+		this.maxForce        = 45;
+		this.minForce        = 0;
+
 		let nodeSprite = new RedT.Node;
 		this.sprite = new RedT.Sprite(RedT.decorator.resources['anim_go_1']);
 		nodeSprite.addComponent(this.sprite);
 
 		// Đường vẽ hướng bắn
-		let nodeLine = new RedT.Node({
+		this._nodeLine = new RedT.Node({
 			anchorX:   0,
 			x:         10,
 			rotation: -10,
 		});
 
 		this._lineGraphics = new RedT.Graphics;
-		nodeLine.addComponent(this._lineGraphics);
+		this._nodeLine.addComponent(this._lineGraphics);
 
 		this._lineGraphics.lineDash([2, 3, 2]);
 		this._lineGraphics.strokeColor('#ffffff');
@@ -45,7 +52,7 @@ class Player extends RedT.Node {
 		this._lineGraphics.close();
 		this._lineGraphics.stroke();
 
-		this.addChild(nodeSprite, nodeLine);
+		this.addChild(nodeSprite, this._nodeLine);
 
 		this._body = new RedT.PhysicsBody;
 		this._body.type = 1;
@@ -64,6 +71,23 @@ class Player extends RedT.Node {
 		collider.offset.x = this._regX;
 		collider.offset.y = this._regY;
 		this.addComponent(collider);
+	}
+	fire(){
+		let bullet = new Bullet;
+
+		bullet.x = this.x+this._nodeLine.x;
+		bullet.y = this.y+this._nodeLine.y;
+
+		let angle = this._nodeLine.getRotation();
+		if (angle > 0) {
+			angle = -180+angle;
+		}
+		angle = angle*RedT.DEG_TO_RAD;
+		bullet._body.linearVelocity.x = Math.cos(angle)*this.currentForce;
+		bullet._body.linearVelocity.y = Math.sin(angle)*this.currentForce;
+
+		Home.ground.addChild(bullet);
+		this.currentForce = this.minForce;
 	}
 	_onChangerX() {
 		if (this._body !== void 0) {
@@ -114,12 +138,18 @@ class Player extends RedT.Node {
 				this._lineGraphics.node.x = -10;
 				this._lineRotation = 1;
 			}
-		}else if(code === 38 || code === 87){
+		}
+
+		if(code === 38 || code === 87){
 			this.keyDownAngle = 1;
 		}else if(code === 40 || code === 83){
 			this.keyDownAngle = 0;
 		}
 		this.isKeyDown = isMove;
+
+		if (code === 32) {
+			this.isKeySpace = true;
+		}
 	}
 	keyup(e){
 		if (!this.isPlay) return;
@@ -129,12 +159,18 @@ class Player extends RedT.Node {
 		}else if(code === 38 || code === 87 || code === 40 || code === 83){
 			this.keyDownAngle = -1;
 		}
+		if (code === 32) {
+			this.fire();
+			this.isKeySpace = false;
+		}
 	}
 
 	update() {
 		if (!this.isPlay){
 			this.isKeyDown    = false;
 			this.keyDownAngle = -1;
+			this.isKeySpace   = false;
+			this.currentForce = this.minForce;
 			return;
 		};
 		if (this.isKeyDown) {
@@ -156,6 +192,15 @@ class Player extends RedT.Node {
 				this.currentAngle = this.minAngle;
 			}
 			this._lineGraphics.node.rotation = this._lineRotation*Math.abs(this.currentAngle);
+		}
+		if (this.isKeySpace) {
+			this.currentForce += this.forceSpeed;
+			if (this.currentForce < this.minForce) {
+				this.currentForce = 0;
+			}else if (this.currentForce > this.maxForce) {
+				this.currentForce = this.maxForce;
+			}
+			Home.luc_fire_bg.sprite.mask = this.currentForce/this.maxForce;
 		}
 	}
 }

@@ -226,9 +226,16 @@ this.RedT = this.RedT || {};
 	// Phá hủy node
 	p.destroy = function(){
 		this.active = false;
+		this.onDisable !== void 0 && this.onDisable();
+		this.onDestroy !== void 0 && this.onDestroy(); // gọi trước khi phá hủy node
 		if (this.parent !== null) {
-			//
+			let index = this.parent.children.indexOf(this);
+			this.parent.children.splice(index, 1);
 		}
+		this.components.forEach((component)=>{
+			component.onDisable !== void 0 && component.onDisable();
+			component.onDestroy !== void 0 && component.onDestroy();
+		});
 	}
 
 	// Thêm sự kiện

@@ -10,6 +10,8 @@ RedT.VELOCITY_ITERATIONS = 10;
 RedT.POSITION_ITERATIONS = 10;
 RedT.MAX_ACCUMULATOR     = 1/5;
 
+let hg = 0.5522847493;
+
 
 // đệ quy: tính vị trí trên màn hình
 RedT.setChildPosition = function(child, parent){
@@ -86,3 +88,14 @@ RedT.pointTouch = function(e){
 		y: e.clientY-pointCanvas.top,
 	};
 }
+
+// Vẽ hình chòn/elip
+RedT.ellipse = function(ctx, cx, cy, rx, ry) {
+    ctx.moveTo(cx - rx, cy);
+    ctx.bezierCurveTo(cx - rx, cy + ry * hg, cx - rx * hg, cy + ry, cx, cy + ry);
+    ctx.bezierCurveTo(cx + rx * hg, cy + ry, cx + rx, cy + ry * hg, cx + rx, cy);
+    ctx.bezierCurveTo(cx + rx, cy - ry * hg, cx + rx * hg, cy - ry, cx, cy - ry);
+    ctx.bezierCurveTo(cx - rx * hg, cy - ry, cx - rx, cy - ry * hg, cx - rx, cy);
+    ctx.close();
+}
+

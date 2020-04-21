@@ -19,7 +19,7 @@ this.RedT = this.RedT || {};
 
 		this._vec2     = RedT.v2();
 
-		this._enabledDebugDraw = true;
+		this._enabledDebugDraw = false;
 	}
 	let p = RedT.CollisionManager.prototype;
 
@@ -247,7 +247,7 @@ this.RedT = this.RedT || {};
 		}
 	}
 
-	p.removeCollider = function (collider) {
+	p.removeCollider = function(collider) {
 		let colliders = this._colliders;
 		let index = colliders.indexOf(collider);
 		if (index >= 0) {
@@ -267,8 +267,7 @@ this.RedT = this.RedT || {};
 		}
 	}
 
-
-	// Vẽ khung va trạm,(@_@)
+	// Vẽ khung va trạm, (@_@)
 	p.drawColliders = function () {
 		if (!this._enabledDebugDraw) {
 			return;
