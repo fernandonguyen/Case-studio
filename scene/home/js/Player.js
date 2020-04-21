@@ -88,9 +88,11 @@ class Player extends RedT.Node {
 		this.luc_fire_bg.addComponent(this.luc_fire_bg.sprite);
 		this.lineFire.addChild(this.luc_fire_bg);
 		this.luc_fire_bg.sprite.mask = 0;
+
+		Home.Game.addChild(this.lineFire);
 	}
 	fire(){
-		Home.cameraStop = true;
+		//Home.cameraStop = true;
 		let bullet      = new Bullet;
 		bullet._group   = this._fireGroup;
 

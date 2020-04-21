@@ -17,12 +17,9 @@ Home.createPlayer = function() {
 	this.player2.huong      = 'left';
 	this.player2.scaleX     = -1;
 	this.player2._nodeLine.rotation = 10;
-	this.player2._lineRotation      = -1;
+	this.player2._lineRotation      = 1;
 	this.player2.x                  = 2530;
-
-	console.log(this.player2);
 
 	//
 	this.ground.addChild(this.player1, this.player2);
-	this.Game.addChild(this.player1.lineFire);
 }

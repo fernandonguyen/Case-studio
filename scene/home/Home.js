@@ -70,6 +70,17 @@ this.Home = this.Home || {};
 		this.Game.on('keyup',     this.keyup,        this);
 	}
 
+	// Thay đổi lượt chơi
+	Home.changerPlayer = function() {
+		this.player.onHidden();
+		if (this.player === this.player1) {
+			this.player = this.player2;
+		}else{
+			this.player = this.player1;
+		}
+		this.player.onPlay();
+	}
+
 	Home.onMouseStart = function(e) {
 		if (this.cameraStop === false) {
 			let point = RedT.pointTouch(e);
@@ -77,6 +88,7 @@ this.Home = this.Home || {};
 			this.offset.y = point.y-this.ground._y;
 		}
 	}
+
 	Home.onMouseMove  = function(e) {
 		if (this.cameraStop === false) {
 			let point = RedT.pointTouch(e);
