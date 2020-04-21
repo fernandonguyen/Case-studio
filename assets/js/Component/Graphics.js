@@ -12,7 +12,8 @@ class Graphics extends RedT.Component {
 			fillStyle: 'white',
 			lineCap: 'butt',
 			lineJoin: 'miter',
-			miterLimit: 10
+			miterLimit: 10,
+			setLineDash: [],
 		};
 	}
 
@@ -64,6 +65,9 @@ class Graphics extends RedT.Component {
 		this.cmds.push(['closePath', []]);
 	}
 
+	lineDash (v){
+		this.style.setLineDash = v;
+	}
 	stroke () {
 		this.cmds.push(['stroke', []]);
 	}
@@ -88,20 +92,10 @@ class Graphics extends RedT.Component {
 		this.style.lineWidth = v;
 	}
 
-
 	lineCap (v) {
-		var lineCap = 'butt';
-		if (v === LineCap.BUTT) {
-			lineCap = 'butt';
-		}
-		else if (v === LineCap.ROUND) {
-			lineCap = 'round';
-		}
-		else if (v === LineCap.SQUARE) {
-			lineCap = 'square';
-		}
-		this.cmds.push(['lineCap', lineCap]);
-		this.style.lineCap = lineCap;
+		// butt, butt, round, square
+		this.cmds.push(['lineCap', v]);
+		this.style.lineCap = v;
 	}
 	lineJoin (v) {
 		/**
@@ -133,6 +127,7 @@ class Graphics extends RedT.Component {
 		ctx.lineWidth = style.lineWidth;
 		ctx.lineJoin = style.lineJoin;
 		ctx.miterLimit = style.miterLimit;
+		ctx.setLineDash(style.setLineDash);
 
 		let endPath = true;
 		let cmds = this.cmds;

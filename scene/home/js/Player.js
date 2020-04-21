@@ -11,8 +11,39 @@ class Player extends RedT.Node {
 		this.huong     = 'right';
 		this.isKeyDown = false;
 
+		// Góc bắn hiện tại
+		this.currentAngle = 0;
+		// Góc bắn tối thiểu
+		this.minAngle = 0;
+		// Góc bắn tối đa
+		this.maxAngle = 100;
+		// Góc góc bù
+		this.offsetAngle = 10;
+
+		this._lineRotation = -1;
+
+		let nodeSprite = new RedT.Node;
 		this.sprite = new RedT.Sprite(RedT.decorator.resources['anim_go_1']);
-		this.addComponent(this.sprite);
+		nodeSprite.addComponent(this.sprite);
+
+		// Đường vẽ hướng bắn
+		let nodeLine = new RedT.Node({
+			anchorX:   0,
+			x:         10,
+			rotation: -10,
+		});
+
+		this._lineGraphics = new RedT.Graphics;
+		nodeLine.addComponent(this._lineGraphics);
+
+		this._lineGraphics.lineDash([2, 3, 2]);
+		this._lineGraphics.strokeColor('#ffffff');
+		this._lineGraphics.moveTo(30, 0);
+		this._lineGraphics.lineTo(120, 0);
+		this._lineGraphics.close();
+		this._lineGraphics.stroke();
+
+		this.addChild(nodeSprite, nodeLine);
 
 		this._body = new RedT.PhysicsBody;
 		this._body.type = 1;
@@ -28,12 +59,9 @@ class Player extends RedT.Node {
 			RedT.v2(-5,   35),
 			RedT.v2(-5,   35),
 		];
-
 		collider.offset.x = this._regX;
 		collider.offset.y = this._regY;
-
 		this.addComponent(collider);
-
 	}
 	_onChangerX() {
 		if (this._body !== void 0) {
@@ -70,12 +98,18 @@ class Player extends RedT.Node {
 			if (this.huong !== 'right') {
 				this.huong = 'right';
 				this.scaleX = 1;
+				this._lineGraphics.node.x = 10;
+				this._lineGraphics.node.rotation = this._lineGraphics.node.rotation*-1;
+				this._lineRotation = -1;
 			}
 		}else if(code === 37 || code === 65){
 			isMove = true;
 			if (this.huong !== 'left') {
 				this.huong = 'left';
 				this.scaleX = -1;
+				this._lineGraphics.node.rotation = this._lineGraphics.node.rotation*-1;
+				this._lineGraphics.node.x = -10;
+				this._lineRotation = 1;
 			}
 		}
 		this.isKeyDown = isMove;

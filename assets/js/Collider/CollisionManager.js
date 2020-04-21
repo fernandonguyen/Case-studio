@@ -19,7 +19,7 @@ this.RedT = this.RedT || {};
 
 		this._vec2     = RedT.v2();
 
-		this._enabledDebugDraw = false;
+		this._enabledDebugDraw = true;
 	}
 	let p = RedT.CollisionManager.prototype;
 
@@ -54,8 +54,6 @@ this.RedT = this.RedT || {};
 			let result = results[i];
 			this._doCollide(result[0], result[1]);
 		}
-
-
 
 		this.drawColliders();
 	}
@@ -272,61 +270,61 @@ this.RedT = this.RedT || {};
 
 	// Vẽ khung va trạm,(@_@)
 	p.drawColliders = function () {
-        if (!this._enabledDebugDraw) {
-            return;
-        }
+		if (!this._enabledDebugDraw) {
+			return;
+		}
 
-        this._checkDebugDrawValid();
+		this._checkDebugDrawValid();
 
-        let debugDrawer = this._debugDrawer;
-        debugDrawer.clear();
+		let debugDrawer = this._debugDrawer;
+		debugDrawer.clear();
 
-        let colliders = this._colliders;
+		let colliders = this._colliders;
 
-        for (let i = 0, l = colliders.length; i < l; i++) {
-            let collider = colliders[i];
+		for (let i = 0, l = colliders.length; i < l; i++) {
+			let collider = colliders[i];
 
-            debugDrawer.strokeColor('#ffffff');
-            if (collider instanceof RedT.BoxCollider || collider instanceof RedT.PolygonCollider) {
-                let ps = collider.world.points;
-                if (ps.length > 0) {
-                    debugDrawer.moveTo(ps[0].x, ps[0].y);
-                    for (let j = 1; j < ps.length; j++) {
-                        debugDrawer.lineTo(ps[j].x, ps[j].y);
-                    }
-                    debugDrawer.close();
-                    debugDrawer.stroke();
-                }
-            }
-            else if (collider instanceof RedT.CircleCollider) {
-                debugDrawer.circle(collider.world.position.x, collider.world.position.y, collider.world.radius);
-                debugDrawer.stroke();
-            }
+			debugDrawer.strokeColor('#ffffff');
+			if (collider instanceof RedT.BoxCollider || collider instanceof RedT.PolygonCollider) {
+				let ps = collider.world.points;
+				if (ps.length > 0) {
+					debugDrawer.moveTo(ps[0].x, ps[0].y);
+					for (let j = 1; j < ps.length; j++) {
+						debugDrawer.lineTo(ps[j].x, ps[j].y);
+					}
+					debugDrawer.close();
+					debugDrawer.stroke();
+				}
+			}
+			else if (collider instanceof RedT.CircleCollider) {
+				debugDrawer.circle(collider.world.position.x, collider.world.position.y, collider.world.radius);
+				debugDrawer.stroke();
+			}
 
-            if (this.enabledDrawBoundingBox) {
-                let aabb = collider.world.aabb;
-                
-                debugDrawer.strokeColor('#2196F3');
-                
-                debugDrawer.moveTo(aabb.xMin, aabb.yMin);
-                debugDrawer.lineTo(aabb.xMin, aabb.yMax);
-                debugDrawer.lineTo(aabb.xMax, aabb.yMax);
-                debugDrawer.lineTo(aabb.xMax, aabb.yMin);
+			if (this.enabledDrawBoundingBox) {
+				let aabb = collider.world.aabb;
+				
+				debugDrawer.strokeColor('#2196F3');
+				
+				debugDrawer.moveTo(aabb.xMin, aabb.yMin);
+				debugDrawer.lineTo(aabb.xMin, aabb.yMax);
+				debugDrawer.lineTo(aabb.xMax, aabb.yMax);
+				debugDrawer.lineTo(aabb.xMax, aabb.yMin);
 
-                debugDrawer.close();
-                debugDrawer.stroke();
-            }
-        }
-    }
+				debugDrawer.close();
+				debugDrawer.stroke();
+			}
+		}
+	}
 
-    p._checkDebugDrawValid = function() {
-        if (this._debugDrawer === void 0) {
-            let node = new RedT.Node;
-            RedT.decorator.Game.addChild(node);
-            this._debugDrawer = new RedT.Graphics;
-            node.addComponent(this._debugDrawer);
-        }
-    }
+	p._checkDebugDrawValid = function() {
+		if (this._debugDrawer === void 0) {
+			let node = new RedT.Node;
+			RedT.decorator.Game.addChild(node);
+			this._debugDrawer = new RedT.Graphics;
+			node.addComponent(this._debugDrawer);
+		}
+	}
 
 
 })()
