@@ -1,4 +1,6 @@
 
+this.RedT = this.RedT || {};
+
 class Bullet extends RedT.Node {
 	constructor() {
 		super();
@@ -25,10 +27,16 @@ class Bullet extends RedT.Node {
 		this.scale = 0.4;
 	}
 	onCollisionEnter(collider1, collider2){
-		let collider = collider1 === this._body ? collider2 : collider1;
+		let c1 = collider1._node === this ? collider2 : collider1;
+		let c2 = collider1._node === this ? collider1 : collider2;
 		this._body.type = 2;
+
+		let ef = new RedT.BulletEf();
+		ef.x = c2._node._x;
+		ef.y = c2._node._y;
+
+		Home.ground.addChild(ef);
 		this.destroy();
 		this._body = null;
-		console.log(collider);
 	}
 }

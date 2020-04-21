@@ -206,10 +206,10 @@ this.RedT = this.RedT || {};
 					component.onEnable !== void 0 && component.onEnable();
 				});
 			}
-			this.update !== void 0 && this.update(1/60);
+			this.update !== void 0 && this.update(RedT.TIME_FPS);
 			this.components.forEach((component)=>{
 				component.draw !== void 0 && component.draw();
-				component.update !== void 0 && component.update(1/60);
+				component.update !== void 0 && component.update(RedT.TIME_FPS);
 			});
 			this.components.forEach((component)=>{
 				component.draw !== void 0 && component.draw();
@@ -217,8 +217,6 @@ this.RedT = this.RedT || {};
 			this.children.forEach((child)=>{
 				child.draw();
 			});
-			//ctx.setTransform(1, 0, 0, 1, 0, 0);
-			//ctx.clearRect(0, 0, 2, 2);
 		}
 		return void 0;
 	}

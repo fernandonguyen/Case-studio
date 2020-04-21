@@ -1,4 +1,6 @@
 
+this.RedT = this.RedT || {};
+
 class Player extends RedT.Node {
 	constructor() {
 		super();

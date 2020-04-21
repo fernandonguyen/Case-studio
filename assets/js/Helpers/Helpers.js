@@ -2,16 +2,10 @@
 
 this.RedT = this.RedT || {};
 
-RedT.TIME_FPS            = 1/60;
-RedT.DEG_TO_RAD          = Math.PI/180;
-RedT.RAD_TO_DEG          = 180/Math.PI;
-RedT.PTM_RATIO           = 32;
-RedT.VELOCITY_ITERATIONS = 10;
-RedT.POSITION_ITERATIONS = 10;
-RedT.MAX_ACCUMULATOR     = 1/5;
-
-let hg = 0.5522847493;
-
+RedT.TIME_FPS   = 1/60;
+RedT.DEG_TO_RAD = Math.PI/180;
+RedT.RAD_TO_DEG = 180/Math.PI;
+RedT.hg         =  0.5522847493;
 
 // đệ quy: tính vị trí trên màn hình
 RedT.setChildPosition = function(child, parent){
@@ -92,10 +86,9 @@ RedT.pointTouch = function(e){
 // Vẽ hình chòn/elip
 RedT.ellipse = function(ctx, cx, cy, rx, ry) {
     ctx.moveTo(cx - rx, cy);
-    ctx.bezierCurveTo(cx - rx, cy + ry * hg, cx - rx * hg, cy + ry, cx, cy + ry);
-    ctx.bezierCurveTo(cx + rx * hg, cy + ry, cx + rx, cy + ry * hg, cx + rx, cy);
-    ctx.bezierCurveTo(cx + rx, cy - ry * hg, cx + rx * hg, cy - ry, cx, cy - ry);
-    ctx.bezierCurveTo(cx - rx * hg, cy - ry, cx - rx, cy - ry * hg, cx - rx, cy);
+    ctx.bezierCurveTo(cx - rx, cy + ry * RedT.hg, cx - rx * RedT.hg, cy + ry, cx, cy + ry);
+    ctx.bezierCurveTo(cx + rx * RedT.hg, cy + ry, cx + rx, cy + ry * RedT.hg, cx + rx, cy);
+    ctx.bezierCurveTo(cx + rx, cy - ry * RedT.hg, cx + rx * RedT.hg, cy - ry, cx, cy - ry);
+    ctx.bezierCurveTo(cx - rx * RedT.hg, cy - ry, cx - rx, cy - ry * RedT.hg, cx - rx, cy);
     ctx.close();
 }
-

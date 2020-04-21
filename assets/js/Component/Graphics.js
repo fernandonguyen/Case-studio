@@ -34,7 +34,7 @@ class Graphics extends RedT.Component {
 	}
 
 	arc (cx, cy, r, startAngle, endAngle, counterclockwise) {
-		//Helper.arc(this, cx, cy, r, startAngle, endAngle, counterclockwise);
+		//RedT.arc(this, cx, cy, r, startAngle, endAngle, counterclockwise);
 	}
 
 	ellipse (cx, cy, rx, ry) {
@@ -54,7 +54,7 @@ class Graphics extends RedT.Component {
 	}
 
 	roundRect (x, y, w, h, r) {
-		//Helper.roundRect(this, x, y, w, h, r);
+		//RedT.roundRect(this, x, y, w, h, r);
 	}
 
 	clear () {
@@ -82,9 +82,8 @@ class Graphics extends RedT.Component {
 	}
 
 	fillColor(v) {
-		var fillStyle = 'rgba(' + (0 | v.r) + ',' + (0 | v.g) + ',' + (0 | v.b) + ',' + v.a / 255 + ')';
-		this.cmds.push(['fillStyle', fillStyle]);
-		this.style.fillStyle = fillStyle;
+		this.cmds.push(['fillStyle', v]);
+		this.style.fillStyle = v;
 	}
 
 	lineWidth (v) {
@@ -93,14 +92,12 @@ class Graphics extends RedT.Component {
 	}
 
 	lineCap (v) {
-		// butt, butt, round, square
+		// butt, round, square
 		this.cmds.push(['lineCap', v]);
 		this.style.lineCap = v;
 	}
 	lineJoin (v) {
-		/**
-		 * bevel, round, miter
-		*/
+		// bevel, round, miter
 		this.cmds.push(['lineJoin', v]);
 		this.style.lineJoin = v;
 	}
