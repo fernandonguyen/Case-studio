@@ -39,6 +39,8 @@ class BulletEf extends RedT.Node {
 			'ef_bullet_bug_23',
 			'ef_bullet_bug_24',
 		];
+
+		this.scale = 0.5;
 	}
 	onFinishAnimation(){
 		this.destroy();

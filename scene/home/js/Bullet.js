@@ -31,6 +31,7 @@ class Bullet extends RedT.Node {
 		let c2 = collider1._node === this ? collider1 : collider2;
 		this._body.type = 2;
 
+		// đạn nổ
 		let ef = new RedT.BulletEf();
 		ef.x = c2._node._x;
 		ef.y = c2._node._y;

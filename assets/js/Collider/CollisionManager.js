@@ -19,7 +19,7 @@ this.RedT = this.RedT || {};
 
 		this._vec2     = RedT.v2();
 
-		this._enabledDebugDraw = false;
+		this._enabledDebugDraw = true;
 	}
 	let p = RedT.CollisionManager.prototype;
 
