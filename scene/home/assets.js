@@ -6,6 +6,7 @@ Home.assets = [
 	{name:'anim_go_1',       src: 'scene/home/images/players/1/1/go/1.png',   type: 'image'},
 	{name:'anim_fire_1',     src: 'scene/home/images/players/1/1/fire/1.png', type: 'image'},
 	{name:'dan_5',           src: 'scene/home/images/dan/5.png',              type: 'image'},
+	{name:'tvtl1',           src: 'scene/home/images/dan/tvtl1.png',          type: 'image'},
 	{name:'luc_bg',          src: 'scene/home/images/luc_bg.png',             type: 'image'},
 	{name:'luc_fire_bg',     src: 'scene/home/images/luc_fire_bg.png',        type: 'image'},
 
@@ -35,5 +36,23 @@ Home.assets = [
 	{name:'ef_bullet_bug_23', src: 'scene/home/images/Ef/dan/dcht/griss/23.png', type: 'image'},
 	{name:'ef_bullet_bug_24', src: 'scene/home/images/Ef/dan/dcht/griss/24.png', type: 'image'},
 
+	// Ảnh bot 1
+	{name:'bot1_n_1',  src: 'scene/home/images/bot/bot1/n/01.png', type: 'image'},
+	{name:'bot1_n_2',  src: 'scene/home/images/bot/bot1/n/02.png', type: 'image'},
+	{name:'bot1_n_3',  src: 'scene/home/images/bot/bot1/n/03.png', type: 'image'},
+	{name:'bot1_n_4',  src: 'scene/home/images/bot/bot1/n/04.png', type: 'image'},
+	{name:'bot1_n_5',  src: 'scene/home/images/bot/bot1/n/05.png', type: 'image'},
+	{name:'bot1_n_6',  src: 'scene/home/images/bot/bot1/n/06.png', type: 'image'},
+	{name:'bot1_n_7',  src: 'scene/home/images/bot/bot1/n/07.png', type: 'image'},
+	{name:'bot1_n_8',  src: 'scene/home/images/bot/bot1/n/08.png', type: 'image'},
+	{name:'bot1_n_9',  src: 'scene/home/images/bot/bot1/n/09.png', type: 'image'},
+	{name:'bot1_n_10', src: 'scene/home/images/bot/bot1/n/10.png', type: 'image'},
+	{name:'bot1_n_11', src: 'scene/home/images/bot/bot1/n/11.png', type: 'image'},
+	{name:'bot1_n_12', src: 'scene/home/images/bot/bot1/n/12.png', type: 'image'},
+	{name:'bot1_n_13', src: 'scene/home/images/bot/bot1/n/13.png', type: 'image'},
+	{name:'bot1_n_14', src: 'scene/home/images/bot/bot1/n/14.png', type: 'image'},
 
+	// Ảnh bot 1 suất hiện
+	// Ảnh bot 1 tấn công
+	// Ảnh bot 1 chết
 ];

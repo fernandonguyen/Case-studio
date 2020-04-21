@@ -4,27 +4,26 @@ this.RedT = this.RedT || {};
 class Bullet extends RedT.Node {
 	constructor() {
 		super();
-		this._group = 'dan';
-		this.name   = 'dan';
 
-		this.sprite = new RedT.Sprite(RedT.decorator.resources['dan_5']);
+		this.sprite = new RedT.Sprite(RedT.decorator.resources['tvtl1']);
 		this.addComponent(this.sprite);
 
 		// Cơ thể vật lý
 		this._body = new RedT.PhysicsBody;
 
+		// Giảm vận tốc tuyến tính X
 		this._body.linearDamping = 0.01;
 
 		this.addComponent(this._body);
 
 		// Va chạm
 		let collider = new RedT.CircleCollider;
-		collider.radius = 45;
+		collider.radius = 28;
 		collider.offset.x = this._regX;
 		collider.offset.y = this._regY;
 		this.addComponent(collider);
 
-		this.scale = 0.4;
+		this.scale = 0.8;
 	}
 	onCollisionEnter(collider1, collider2){
 		let c1 = collider1._node === this ? collider2 : collider1;

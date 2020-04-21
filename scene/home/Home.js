@@ -4,6 +4,9 @@ this.Home = this.Home || {};
 (function(Home){
 	Home.isLoadAsset = false;
 	Home.Game        = null;
+	Home.isPlay      = false;
+	Home.cameraStop  = true;
+	Home.player      = null;
 	Home.init = function() {
 		this.offset = RedT.v2();
 		if (this.Game === null) {
@@ -13,72 +16,41 @@ this.Home = this.Home || {};
 			// background
 			this.background = new HomeBackground;
 
-			// Loại bỏ đạn lạc, khi đạn lạc khỏi bản đồ
-			// giới hạn bản đồ, Phá hủy đạn lạc, tránh phung phí hiệu năng
-			let fixBulletBottom = new RedT.Node({_group: 'ground', name:'fixBulletBottom', x: RedT.decorator.canvas.width/2, y: 650,
-				width: 5000,
-				height: 5});
-			let colliderBottomFixx = new RedT.BoxCollider;
-			colliderBottomFixx.offset.x = fixBulletBottom._regX;
-			colliderBottomFixx.offset.y = fixBulletBottom._regY;
-			colliderBottomFixx.size.set(fixBulletBottom.getContentSize());
-			fixBulletBottom.addComponent(colliderBottomFixx);
-
-			let fixBulletTop = new RedT.Node({_group: 'ground', name:'fixBulletTop', x: RedT.decorator.canvas.width/2, y: 0,
-				width: 5000,
-				height: 5});
-			let colliderTopFixx = new RedT.BoxCollider;
-			colliderTopFixx.offset.x = fixBulletTop._regX;
-			colliderTopFixx.offset.y = fixBulletTop._regY;
-			colliderTopFixx.size.set(fixBulletTop.getContentSize());
-			fixBulletTop.addComponent(colliderTopFixx);
-
-			let fixBulletLeft = new RedT.Node({_group: 'ground', name:'fixBulletLeft', x: -1450, y: RedT.decorator.canvas.height/2,
-				width: 5,
-				height: 5000});
-			let colliderLeftFixx = new RedT.BoxCollider;
-			colliderLeftFixx.offset.x = fixBulletLeft._regX;
-			colliderLeftFixx.offset.y = fixBulletLeft._regY;
-			colliderLeftFixx.size.set(fixBulletLeft.getContentSize());
-			fixBulletLeft.addComponent(colliderLeftFixx);
-
-			let fixBulletRight = new RedT.Node({_group: 'ground', name:'fixBulletRight', x: 2550, y: RedT.decorator.canvas.height/2,
-				width: 5,
-				height: 5000});
-			let colliderRightFixx = new RedT.BoxCollider;
-			colliderRightFixx.offset.x = fixBulletRight._regX;
-			colliderRightFixx.offset.y = fixBulletRight._regY;
-			colliderRightFixx.size.set(fixBulletRight.getContentSize());
-			fixBulletRight.addComponent(colliderRightFixx);
-			//
-
 			// ground
-			this.ground     = new Ground;
+			this.ground = new Ground;
 
-			this.Game.addChild(this.background, this.ground, fixBulletBottom);
+			// Tạo hộp giới hạn bao quanh bản đồ
+			this.limitGround();
 
+			this.Game.addChild(this.background, this.ground);
+
+			// Được gọi ki position thay đổi
 			this.ground._onChangerX = this._onChangerX.bind(this);
 			this.ground._onChangerY = this._onChangerY.bind(this);
 
-			// Test
-			this.player = new Player;
-
-			this.ground.addChild(this.player);
-
-			this.luc_bg = new RedT.Node({x:RedT.decorator.canvas.width/2, y:RedT.decorator.canvas.height-30});
-			this.luc_bg.addComponent(new RedT.Sprite(RedT.decorator.resources['luc_bg']));
-
-			this.luc_fire_bg = new RedT.Node({x:19, y:1});
-			this.luc_fire_bg.sprite = new RedT.Sprite(RedT.decorator.resources['luc_fire_bg'])
-			this.luc_fire_bg.addComponent(this.luc_fire_bg.sprite);
-			this.luc_bg.addChild(this.luc_fire_bg);
-			this.luc_fire_bg.sprite.mask = 0;
-			this.Game.addChild(this.luc_bg);
+			// tạo người chơi
+			this.createPlayer();
 
 			// X tối đa
 			this.maxX = 0;
 			// X tối thiểu
 			this.minX = -(RedT.decorator.resources['home_ground'].width-RedT.decorator.canvas.width);
+
+			// Quay camera xem vị trí của các nhân vật
+			setTimeout(function(){
+				Home.ground.runAction(
+					RedT.moveTo(0.7, RedT.v2(-1780, -200)),
+					RedT.delayTime(1),
+					RedT.moveTo(1.5, RedT.v2(-180, -200)),
+					RedT.delayTime(0.5),
+					RedT.callFunc(function(){
+						this.player     = this.player1;
+						this.cameraStop = false;
+						this.isPlay     = true;
+						this.player.onPlay();
+					}, this),
+				);
+			}.bind(this), 1000);
 		}
 		RedT.decorator.Game = this.Game;
 
@@ -87,31 +59,91 @@ this.Home = this.Home || {};
 		RedT.decorator.PhysicsManager.enabled   = true;
 		RedT.decorator.CollisionManager.enabled = true;
 
-		// Quay camera
-		this.regCamera();
+		// Event
+		this.regEvent();
 	};
-	Home.regCamera = function() {
+	Home.regEvent = function() {
 		this.Game.on('mousedown', this.onMouseStart, this);
 		this.Game.on('mousemove', this.onMouseMove,  this);
 		this.Game.on('mouseup',   this.onMouseEnd,   this);
+		this.Game.on('keydown',   this.keydown,      this);
+		this.Game.on('keyup',     this.keyup,        this);
 	}
 
 	Home.onMouseStart = function(e) {
-		let point = RedT.pointTouch(e);
-		this.offset.x = point.x-this.ground._x;
-		this.offset.y = point.y-this.ground._y;
+		if (this.cameraStop === false) {
+			let point = RedT.pointTouch(e);
+			this.offset.x = point.x-this.ground._x;
+			this.offset.y = point.y-this.ground._y;
+		}
 	}
 	Home.onMouseMove  = function(e) {
-		let point = RedT.pointTouch(e);
-		let x = point.x-this.offset.x;
-		let y = point.y-this.offset.y;
-		if(y < -240){
-			y = -240;
+		if (this.cameraStop === false) {
+			let point = RedT.pointTouch(e);
+			let x = point.x-this.offset.x;
+			let y = point.y-this.offset.y;
+			this.cameraMoveToX(x);
+			this.cameraMoveToY(y);
 		}
-		if(y > 240){
-			y = 240;
-		}
+	}
 
+	Home.onMouseEnd = function(e) {}
+
+	Home.keydown = function(e){
+		if (this.isPlay && this.player !== null && this.player.yourTurn) {
+			let code = e.keyCode;
+			let isMove = false;
+			if (code === 39 || code === 68) {
+				isMove = true;
+				if (this.player.huong !== 'right') {
+					this.player.huong = 'right';
+					this.player.scaleX = 1;
+					this.player._lineGraphics.node.x = 10;
+					this.player._lineGraphics.node.rotation = this.player._lineGraphics.node.rotation*-1;
+					this.player._lineRotation = -1;
+				}
+			}else if(code === 37 || code === 65){
+				isMove = true;
+				if (this.player.huong !== 'left') {
+					this.player.huong = 'left';
+					this.player.scaleX = -1;
+					this.player._lineGraphics.node.rotation = this.player._lineGraphics.node.rotation*-1;
+					this.player._lineGraphics.node.x = -10;
+					this.player._lineRotation = 1;
+				}
+			}
+
+			if(code === 38 || code === 87){
+				this.player.keyDownAngle = 1;
+			}else if(code === 40 || code === 83){
+				this.player.keyDownAngle = 0;
+			}
+			this.player.isKeyDown = isMove;
+
+			if (code === 32) {
+				this.player.isKeySpace = true;
+			}
+		}
+	}
+
+	Home.keyup = function(e){
+		if (this.isPlay && this.player !== null && this.player.yourTurn) {
+			let code = e.keyCode;
+			if (code === 39 || code === 68 || code === 37 || code === 65){
+				this.player.isKeyDown = false;
+			}else if(code === 38 || code === 87 || code === 40 || code === 83){
+				this.player.keyDownAngle = -1;
+			}
+			if (code === 32) {
+				this.player.fire();
+				this.player.isKeySpace = false;
+			}
+		}
+	}
+
+	// Di chuyển camera tới vị chí x
+	Home.cameraMoveToX = function(x) {
+		let check;
 		if(x > this.maxX){
 			x = this.maxX;
 		}
@@ -119,17 +151,25 @@ this.Home = this.Home || {};
 			x = this.minX;
 		}
 		this.ground.x = x;
+	}
+
+	// Di chuyển camera tới vị chí y
+	Home.cameraMoveToY = function(y) {
+		if(y < -240){
+			y = -240;
+		}
+		if(y > 240){
+			y = 240;
+		}
 		this.ground.y = y;
 	}
 
-	Home.onMouseEnd = function(e) {}
-
 	Home._onChangerX = function(){
-		let backgroundScaleX = Math.abs(this.ground.x/(this.maxX-this.minX));
+		let backgroundScaleX = Math.abs(this.ground._x/(this.maxX-this.minX));
 		this.background.x = -(backgroundScaleX*595);
 	}
 	Home._onChangerY = function(){
-		let backgroundScaleY = (this.ground.y+240)/480;
+		let backgroundScaleY = (this.ground._y+240)/480;
 		this.background.y = backgroundScaleY*400-400;
 	}
 

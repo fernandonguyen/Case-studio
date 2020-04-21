@@ -5,10 +5,12 @@ class Player extends RedT.Node {
 	constructor() {
 		super();
 
-		this.isPlay = true;
-		this.x      = 368;
-		this.y      = 500;
-		this._group = 'player';
+		this.yourTurn = false;
+		this.hp       = 100;
+		this.win      = 0;
+
+		this.x          = 368;
+		this.y          = 500;
 
 		this.speed     = .2;
 		this.huong     = 'right';
@@ -41,7 +43,8 @@ class Player extends RedT.Node {
 		this._nodeLine = new RedT.Node({
 			anchorX:   0,
 			x:         10,
-			rotation: -10,
+			rotation:  -10,
+			active:    false,
 		});
 
 		this._lineGraphics = new RedT.Graphics;
@@ -73,9 +76,23 @@ class Player extends RedT.Node {
 		collider.offset.x = this._regX;
 		collider.offset.y = this._regY;
 		this.addComponent(collider);
+
+
+		///
+		// thanh lực của người chơi
+		this.lineFire = new RedT.Node({active:false, x:RedT.decorator.canvas.width/2, y:RedT.decorator.canvas.height-30});
+		this.lineFire.addComponent(new RedT.Sprite(RedT.decorator.resources['luc_bg']));
+
+		this.luc_fire_bg = new RedT.Node({x:19, y:1});
+		this.luc_fire_bg.sprite = new RedT.Sprite(RedT.decorator.resources['luc_fire_bg'])
+		this.luc_fire_bg.addComponent(this.luc_fire_bg.sprite);
+		this.lineFire.addChild(this.luc_fire_bg);
+		this.luc_fire_bg.sprite.mask = 0;
 	}
 	fire(){
-		let bullet = new Bullet;
+		Home.cameraStop = true;
+		let bullet      = new Bullet;
+		bullet._group   = this._fireGroup;
 
 		bullet.x = this.x+this._nodeLine.x;
 		bullet.y = this.y+this._nodeLine.y;
@@ -89,7 +106,9 @@ class Player extends RedT.Node {
 		bullet._body.linearVelocity.y = Math.sin(angle)*this.currentForce;
 
 		Home.ground.addChild(bullet);
-		this.currentForce = this.minForce;
+
+		// song lượt chơi
+		this.onDone();
 	}
 	_onChangerX() {
 		if (this._body !== void 0) {
@@ -108,71 +127,27 @@ class Player extends RedT.Node {
 		this._body.type = 2;
 	}
 
-	onEnable(){
-		this.on('keydown', this.keydown, this);
-		this.on('keyup',   this.keyup,   this);
-	};
-
-	onDisable(){
-		this.off('keydown', this.keydown, this);
-		this.off('keyup',   this.keyup,   this);
-	};
-
-	keydown(e){
-		if (!this.isPlay) return;
-		let code = e.keyCode;
-		let isMove = false;
-		if (code === 39 || code === 68) {
-			isMove = true;
-			if (this.huong !== 'right') {
-				this.huong = 'right';
-				this.scaleX = 1;
-				this._lineGraphics.node.x = 10;
-				this._lineGraphics.node.rotation = this._lineGraphics.node.rotation*-1;
-				this._lineRotation = -1;
-			}
-		}else if(code === 37 || code === 65){
-			isMove = true;
-			if (this.huong !== 'left') {
-				this.huong = 'left';
-				this.scaleX = -1;
-				this._lineGraphics.node.rotation = this._lineGraphics.node.rotation*-1;
-				this._lineGraphics.node.x = -10;
-				this._lineRotation = 1;
-			}
-		}
-
-		if(code === 38 || code === 87){
-			this.keyDownAngle = 1;
-		}else if(code === 40 || code === 83){
-			this.keyDownAngle = 0;
-		}
-		this.isKeyDown = isMove;
-
-		if (code === 32) {
-			this.isKeySpace = true;
-		}
+	onPlay(){
+		this.yourTurn         = true;
+		this.lineFire.active  = true;
+		this._nodeLine.active = true;
 	}
-	keyup(e){
-		if (!this.isPlay) return;
-		let code = e.keyCode;
-		if (code === 39 || code === 68 || code === 37 || code === 65){
-			this.isKeyDown = false;
-		}else if(code === 38 || code === 87 || code === 40 || code === 83){
-			this.keyDownAngle = -1;
-		}
-		if (code === 32) {
-			this.fire();
-			this.isKeySpace = false;
-		}
+
+	onDone(){
+		this.yourTurn     = false;
+		this.isKeyDown    = false;
+		this.keyDownAngle = -1;
+		this.isKeySpace   = false;
+		this.currentForce = this.minForce;
+	}
+
+	onHidden(){
+		this.lineFire.active  = false;
+		this._nodeLine.active = false;
 	}
 
 	update() {
-		if (!this.isPlay){
-			this.isKeyDown    = false;
-			this.keyDownAngle = -1;
-			this.isKeySpace   = false;
-			this.currentForce = this.minForce;
+		if (!this.yourTurn){
 			return;
 		};
 		if (this.isKeyDown) {
@@ -202,7 +177,7 @@ class Player extends RedT.Node {
 			}else if (this.currentForce > this.maxForce) {
 				this.currentForce = this.maxForce;
 			}
-			Home.luc_fire_bg.sprite.mask = this.currentForce/this.maxForce;
+			this.luc_fire_bg.sprite.mask = this.currentForce/this.maxForce;
 		}
 	}
 }

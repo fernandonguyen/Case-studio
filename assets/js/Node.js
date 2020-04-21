@@ -190,7 +190,7 @@ this.RedT = this.RedT || {};
 	// vẽ 
 	p.draw = function(){
 		if (this.active === true) {
-			this.update && this.update();
+			this._action && this._action.update(RedT.TIME_FPS);
 			let ctx = RedT.decorator.ctx;
 			ctx.setTransform(this.matrix.a, this.matrix.b, this.matrix.c, this.matrix.d, this.matrix.tx, this.matrix.ty);
 
@@ -234,6 +234,16 @@ this.RedT = this.RedT || {};
 			component.onDisable !== void 0 && component.onDisable();
 			component.onDestroy !== void 0 && component.onDestroy();
 		});
+	}
+
+	p.runAction = function(action){
+		let paramArray = (action instanceof Array) ? action : arguments;
+		this._action = RedT.Action(this, paramArray);
+		console.log(this._action);
+	}
+
+	p.destroyAction = function(){
+		this._action.destroy();
 	}
 
 	// Thêm sự kiện

@@ -46,6 +46,11 @@ class BulletEf extends RedT.Node {
 		this.destroy();
 		this._sprite   = null;
 		this.animation = null;
+
+		Home.cameraStop = false;
+
+		// sau 1s xét thắng thua và chuyền người chơi
+		// setTimeout
 	}
 }
 

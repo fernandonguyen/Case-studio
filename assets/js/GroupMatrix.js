@@ -8,27 +8,21 @@
 
 (function(RedT) {
 	RedT.groupMatrix = {
-		player: {
-			bom:    true,
+		player1: {
+			dan2:   true,
 			ground: true,
 		},
-		dan: {
-			bot:    true,
+		player2: {
+			dan1:   true,
 			ground: true,
 		},
-		bot: {
-			dan:    true,
-			ground: true,
+		dan1: {
+			player2: true,
+			ground:  true,
 		},
-		bom: {
-			player: true,
-			ground: true,
+		dan2: {
+			player1: true,
+			ground:  true,
 		},
-		ground: {
-			player: true,
-			dan:    true,
-			bot:    true,
-			bom:    true,
-		}
 	};
 })(RedT);

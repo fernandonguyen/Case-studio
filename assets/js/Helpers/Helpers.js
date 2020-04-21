@@ -33,11 +33,6 @@ RedT.setParentRotation = function(child, parent){
 	}
 }
 
-// tạo độ trễ ms
-RedT.delayTime = function(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 // chuyển độ sang radian
 RedT.degreesToRadians = function(angle) {
 	return angle * RedT.DEG_TO_RAD;

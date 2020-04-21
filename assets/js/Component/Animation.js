@@ -11,8 +11,6 @@ this.RedT = this.RedT || {};
 			this.anim      = [];
 			this.time      = 0;
 			this.nextFrame = 1;
-			// this._sprite
-			// RedT.decorator.resources['ef_bullet_bug_1']
 		}
 		update(dt){
 			if (this.loop == 0)
@@ -32,7 +30,6 @@ this.RedT = this.RedT || {};
 						this.loop--;
 						if (this.loop == 0) {
 							this._node.onFinishAnimation !== void 0 && this._node.onFinishAnimation();
-							console.log('Hoàn thành hoạt ảnh');
 						}
 					}
 				}
