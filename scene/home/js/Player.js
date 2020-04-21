@@ -3,6 +3,7 @@ class Player extends RedT.Node {
 	constructor() {
 		super();
 
+		this.isPlay = true;
 		this.x      = 368;
 		this.y      = 500;
 		this._group = 'player';
@@ -11,14 +12,15 @@ class Player extends RedT.Node {
 		this.huong     = 'right';
 		this.isKeyDown = false;
 
+
+		this.keyDownAngle = -1;
+		this.speedAngle   = .2;
 		// Góc bắn hiện tại
-		this.currentAngle = 0;
+		this.currentAngle = 10;
 		// Góc bắn tối thiểu
-		this.minAngle = 0;
+		this.minAngle     = 10;
 		// Góc bắn tối đa
-		this.maxAngle = 100;
-		// Góc góc bù
-		this.offsetAngle = 10;
+		this.maxAngle     = 110;
 
 		this._lineRotation = -1;
 
@@ -91,6 +93,7 @@ class Player extends RedT.Node {
 	};
 
 	keydown(e){
+		if (!this.isPlay) return;
 		let code = e.keyCode;
 		let isMove = false;
 		if (code === 39 || code === 68) {
@@ -111,23 +114,48 @@ class Player extends RedT.Node {
 				this._lineGraphics.node.x = -10;
 				this._lineRotation = 1;
 			}
+		}else if(code === 38 || code === 87){
+			this.keyDownAngle = 1;
+		}else if(code === 40 || code === 83){
+			this.keyDownAngle = 0;
 		}
 		this.isKeyDown = isMove;
 	}
 	keyup(e){
+		if (!this.isPlay) return;
 		let code = e.keyCode;
 		if (code === 39 || code === 68 || code === 37 || code === 65){
 			this.isKeyDown = false;
+		}else if(code === 38 || code === 87 || code === 40 || code === 83){
+			this.keyDownAngle = -1;
 		}
 	}
 
 	update() {
+		if (!this.isPlay){
+			this.isKeyDown    = false;
+			this.keyDownAngle = -1;
+			return;
+		};
 		if (this.isKeyDown) {
 			if (this.huong === 'right') {
 				this.x += this.speed;
 			}else{
 				this.x -= this.speed;
 			}
+		}
+		if (this.keyDownAngle === 1) {
+			this.currentAngle += this.speedAngle;
+			if(this.currentAngle > this.maxAngle){
+				this.currentAngle = this.maxAngle;
+			}
+			this._lineGraphics.node.rotation = this._lineRotation*Math.abs(this.currentAngle);
+		}else if (this.keyDownAngle === 0) {
+			this.currentAngle -= this.speedAngle;
+			if(this.currentAngle < this.minAngle){
+				this.currentAngle = this.minAngle;
+			}
+			this._lineGraphics.node.rotation = this._lineRotation*Math.abs(this.currentAngle);
 		}
 	}
 }
