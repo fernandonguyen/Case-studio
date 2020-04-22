@@ -66,5 +66,21 @@ this.RedT = this.RedT || {};
 	}
 
 	p.loadSound = function(asset){
+		if (this.controll.resources[asset.name] === void 0) {
+			let audioElement = new Audio();
+			this.controll.resources[asset.name] = audioElement;
+			audioElement.src = asset.src;
+			audioElement.addEventListener('canplay', function() {
+				this.controll.preLoad_process++;
+				if (this.process() === 1 && this.callback) {
+					this.callback('success');
+					delete this.callback;
+					this.controll.scene.isLoadAsset = true;
+				}
+			}.bind(this), true);
+			audioElement.load();
+		}else{
+			this.exceptionExist();
+		}
 	}
 })();

@@ -13,7 +13,7 @@ Home.limitGround = function() {
 	colliderBottomFixx.size.set(fixBulletBottom.getContentSize());
 	fixBulletBottom.addComponent(colliderBottomFixx);
 
-	let fixBulletTop = new RedT.Node({_group: 'ground', name:'fixBulletTop', x:RedT.decorator.canvas.width/2, y:-4000,
+	let fixBulletTop = new RedT.Node({_group: 'ground', name:'fixBulletTop', x:RedT.decorator.canvas.width/2, y:-6000,
 		width: 5000,
 		height: 100});
 	let colliderTopFixx = new RedT.BoxCollider;

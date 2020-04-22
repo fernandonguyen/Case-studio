@@ -16,7 +16,6 @@ Home.assets = [
 	{name:'thang',           src: 'scene/home/images/thang.png',              type: 'image'},
 	{name:'win',             src: 'scene/home/images/win.png',                type: 'image'},
 
-
 	// Hoạt ảnh đạn nổ
 	{name:'ef_bullet_bug_1',  src: 'scene/home/images/Ef/dan/dcht/griss/1.png',  type: 'image'},
 	{name:'ef_bullet_bug_2',  src: 'scene/home/images/Ef/dan/dcht/griss/2.png',  type: 'image'},
@@ -44,5 +43,7 @@ Home.assets = [
 	{name:'ef_bullet_bug_24', src: 'scene/home/images/Ef/dan/dcht/griss/24.png', type: 'image'},
 
 	// Âm thanh
-
+	{name:'sound_fire',       src: 'scene/home/sounds/fire.mp3',       type: 'sound'},
+	{name:'sound_changerPow', src: 'scene/home/sounds/changerPow.mp3', type: 'sound'},
+	{name:'sound_toPlayer',         src: 'scene/home/sounds/toPlayer.mp3',   type: 'sound'},
 ];

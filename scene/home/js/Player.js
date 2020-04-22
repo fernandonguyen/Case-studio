@@ -114,24 +114,34 @@ class Player extends RedT.Node {
 		}
 	}
 	fire(){
-		let bullet      = new Bullet;
-		bullet._group   = this._fireGroup;
+		this.runAction(
+			RedT.callFunc(function(){
+				// phát âm thanh bắn
+				Home.sound_fire.play();
+			}, this),
+			RedT.delayTime(0.2),
+			RedT.callFunc(function(){
+				let bullet      = new Bullet;
+				bullet._group   = this._fireGroup;
 
-		bullet.x = this.x+this._nodeLine.x;
-		bullet.y = this.y+this._nodeLine.y;
+				bullet.x = this.x+this._nodeLine.x;
+				bullet.y = this.y+this._nodeLine.y;
 
-		let angle = this._nodeLine.getRotation();
-		if (angle > 0) {
-			angle = -180+angle;
-		}
-		angle = angle*RedT.DEG_TO_RAD;
-		bullet._body.linearVelocity.x = Math.cos(angle)*this.currentForce;
-		bullet._body.linearVelocity.y = Math.sin(angle)*this.currentForce;
+				let angle = this._nodeLine.getRotation();
+				if (angle > 0) {
+					angle = -180+angle;
+				}
+				angle = angle*RedT.DEG_TO_RAD;
+				bullet._body.linearVelocity.x = Math.cos(angle)*this.currentForce;
+				bullet._body.linearVelocity.y = Math.sin(angle)*this.currentForce;
 
-		Home.ground.addChild(bullet);
+				Home.ground.addChild(bullet);
 
-		// song lượt chơi
-		this.onDone();
+				// song lượt chơi
+				this.onDone();
+			}, this),
+		);
+
 	}
 	_onChangerX() {
 		if (this._body !== void 0) {
@@ -151,9 +161,17 @@ class Player extends RedT.Node {
 	}
 
 	onPlay(){
-		this.yourTurn         = true;
-		this.lineFire.active  = true;
-		this._nodeLine.active = true;
+		this.runAction(
+			RedT.callFunc(function(){
+				Home.sound_toPlayer.play();
+			}, this),
+			RedT.delayTime(0.2),
+			RedT.callFunc(function(){
+				this.yourTurn         = true;
+				this.lineFire.active  = true;
+				this._nodeLine.active = true;
+			}, this),
+		);
 	}
 
 	onDone(){

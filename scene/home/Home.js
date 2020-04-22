@@ -55,6 +55,9 @@ this.Home = this.Home || {};
 					}, this),
 				);
 			}.bind(this), 1000);
+
+			// Tạo âm thanh cho game
+			this.Media();
 		}
 		RedT.decorator.Game = this.Game;
 
