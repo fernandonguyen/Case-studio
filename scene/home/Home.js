@@ -80,12 +80,30 @@ this.Home = this.Home || {};
 		}else{
 			this.player = this.player1;
 		}
-		this.player.onPlay();
+
+		Home.cameraStop = true;
+		let x = 500 - this.player._x;
+		if(x > this.maxX){
+			x = this.maxX;
+		}
+		if(x < this.minX){
+			x = this.minX;
+		}
+		Home.ground.runAction(
+			RedT.moveTo(0.7, RedT.v2(x, -200)),
+			RedT.delayTime(1),
+			RedT.callFunc(function(){
+				this.player.onPlay();
+			}, this),
+		);
 	}
 
 	Home.checkWin = function() {
-		// if (true) {}
-		this.changerPlayer();
+		if (this.player1.hp <= 0 || this.player2.hp) {
+			console.log('Chiến thắng...!');
+		}else{
+			this.changerPlayer();
+		}
 	}
 
 	Home.onMouseStart = function(e) {
@@ -164,7 +182,6 @@ this.Home = this.Home || {};
 
 	// Di chuyển camera tới vị chí x
 	Home.cameraMoveToX = function(x) {
-		let check;
 		if(x > this.maxX){
 			x = this.maxX;
 		}
