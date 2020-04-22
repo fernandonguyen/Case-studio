@@ -19,10 +19,12 @@
 		dan1: {
 			player2: true,
 			ground:  true,
+			fixbox:  true,
 		},
 		dan2: {
 			player1: true,
 			ground:  true,
+			fixbox:  true,
 		},
 	};
 })(RedT);

@@ -68,6 +68,7 @@ this.RedT = this.RedT || {};
 	p.loadSound = function(asset){
 		if (this.controll.resources[asset.name] === void 0) {
 			let audioElement = new Audio();
+			document.body.appendChild(audioElement);
 			this.controll.resources[asset.name] = audioElement;
 			audioElement.src = asset.src;
 			audioElement.addEventListener('canplay', function() {

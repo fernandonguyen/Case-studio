@@ -182,6 +182,9 @@ this.Home = this.Home || {};
 			this.player.isKeyDown = isMove;
 
 			if (code === 32) {
+				if(this.player.isKeySpace == false){
+					this.sound_changerPow.play();
+				}
 				this.player.isKeySpace = true;
 			}
 		}
@@ -196,6 +199,7 @@ this.Home = this.Home || {};
 				this.player.keyDownAngle = -1;
 			}
 			if (code === 32) {
+				this.sound_changerPow.stop();
 				this.player.fire();
 				this.player.isKeySpace = false;
 			}

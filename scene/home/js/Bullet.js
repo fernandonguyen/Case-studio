@@ -36,27 +36,39 @@ class Bullet extends RedT.Node {
 		let c1 = collider1._node === this ? collider2 : collider1;
 		let c2 = collider1._node === this ? collider1 : collider2;
 
-		// đạn nổ
-		let ef = new RedT.BulletEf();
-		ef.x = c2._node._x;
-		ef.y = c2._node._y;
+		// Âm thanh đạn nổ
 
-		if (c1._node.name === 'player') {
-			c1._node.hp -= 30;
-			if (c1._node.hp <= 0) {
-				c1._node.hp = 0;
+		if (c1._node._group === 'fixbox') {
+			Home.checkWin();
+		}else{
+			if (Home.player._group === 'player2') {
+				Home.sound_feather.play();
+			}else{
+				Home.sound_xiaopao.play();
 			}
-		} else if(c2._node.name === 'player') {
-			c2._node.hp -= 30;
-			if (c2._node.hp <= 0) {
-				c2._node.hp = 0;
+			// đạn nổ
+			let ef = new RedT.BulletEf();
+			ef.x = c2._node._x;
+			ef.y = c2._node._y;
+
+			if (c1._node.name === 'player') {
+				c1._node.hp -= 30;
+				if (c1._node.hp <= 0) {
+					c1._node.hp = 0;
+				}
+			} else if(c2._node.name === 'player') {
+				c2._node.hp -= 30;
+				if (c2._node.hp <= 0) {
+					c2._node.hp = 0;
+				}
 			}
+			Home.ground.addChild(ef);
 		}
 
-		Home.ground.addChild(ef);
 		this.destroy();
 		this._body = null;
 	}
+
 	_onChangerX(){
 		if (Home.controllCamere === false && !!this.parent) {
 			let x = this.getX();

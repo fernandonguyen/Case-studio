@@ -114,33 +114,29 @@ class Player extends RedT.Node {
 		}
 	}
 	fire(){
-		this.runAction(
-			RedT.callFunc(function(){
-				// phát âm thanh bắn
-				Home.sound_fire.play();
-			}, this),
-			RedT.delayTime(0.2),
-			RedT.callFunc(function(){
-				let bullet      = new Bullet;
-				bullet._group   = this._fireGroup;
+		Home.sound_fire.play();
+		let bullet      = new Bullet;
+		bullet._group   = this._fireGroup;
 
-				bullet.x = this.x+this._nodeLine.x;
-				bullet.y = this.y+this._nodeLine.y;
+		if (this._group === 'player2') {
+			bullet.sprite._frameSprite = RedT.decorator.resources['dan_tt2'];
+		}
 
-				let angle = this._nodeLine.getRotation();
-				if (angle > 0) {
-					angle = -180+angle;
-				}
-				angle = angle*RedT.DEG_TO_RAD;
-				bullet._body.linearVelocity.x = Math.cos(angle)*this.currentForce;
-				bullet._body.linearVelocity.y = Math.sin(angle)*this.currentForce;
+		bullet.x = this.x+this._nodeLine.x;
+		bullet.y = this.y+this._nodeLine.y;
 
-				Home.ground.addChild(bullet);
+		let angle = this._nodeLine.getRotation();
+		if (angle > 0) {
+			angle = -180+angle;
+		}
+		angle = angle*RedT.DEG_TO_RAD;
+		bullet._body.linearVelocity.x = Math.cos(angle)*this.currentForce;
+		bullet._body.linearVelocity.y = Math.sin(angle)*this.currentForce;
 
-				// song lượt chơi
-				this.onDone();
-			}, this),
-		);
+		Home.ground.addChild(bullet);
+
+		// song lượt chơi
+		this.onDone();
 
 	}
 	_onChangerX() {
@@ -194,8 +190,15 @@ class Player extends RedT.Node {
 		if (this.isKeyDown) {
 			if (this.huong === 'right') {
 				this.x += this.speed;
+				let maxX = Home.ground.width-30;
+				if (this._x > maxX) {
+					this._x = maxX;
+				}
 			}else{
 				this.x -= this.speed;
+				if (this._x < 30) {
+					this._x = 30;
+				}
 			}
 		}
 		if (this.keyDownAngle === 1) {

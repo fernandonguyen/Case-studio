@@ -26,6 +26,8 @@ Home.createPlayer = function() {
 	this.player2.bg_HP_line.x       = 800;
 	this.player2.bg_HP_line.y       = 20;
 
+	// dan_tt2
+
 	this.player2.sprite._frameSprite = RedT.decorator.resources['player2_go_1'];
 
 	this.ground.addChild(this.player1, this.player2);

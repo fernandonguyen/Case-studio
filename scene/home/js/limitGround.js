@@ -4,7 +4,7 @@ this.Home = this.Home || {};
 Home.limitGround = function() {
 	// Loại bỏ đạn lạc, khi đạn lạc khỏi bản đồ
 	// giới hạn bản đồ, Phá hủy đạn lạc, tránh phung phí hiệu năng
-	let fixBulletBottom = new RedT.Node({_group: 'ground', name:'fixBulletBottom', x:RedT.decorator.canvas.width/2, y:1000,
+	let fixBulletBottom = new RedT.Node({_group: 'fixbox', name:'fixBulletBottom', x:RedT.decorator.canvas.width/2, y:1000,
 		width: 5000,
 		height: 100});
 	let colliderBottomFixx = new RedT.BoxCollider;
@@ -13,7 +13,7 @@ Home.limitGround = function() {
 	colliderBottomFixx.size.set(fixBulletBottom.getContentSize());
 	fixBulletBottom.addComponent(colliderBottomFixx);
 
-	let fixBulletTop = new RedT.Node({_group: 'ground', name:'fixBulletTop', x:RedT.decorator.canvas.width/2, y:-6000,
+	let fixBulletTop = new RedT.Node({_group: 'fixbox', name:'fixBulletTop', x:RedT.decorator.canvas.width/2, y:-6000,
 		width: 5000,
 		height: 100});
 	let colliderTopFixx = new RedT.BoxCollider;
@@ -22,7 +22,7 @@ Home.limitGround = function() {
 	colliderTopFixx.size.set(fixBulletTop.getContentSize());
 	fixBulletTop.addComponent(colliderTopFixx);
 
-	let fixBulletLeft = new RedT.Node({_group: 'ground', name:'fixBulletLeft', x:-500, y:0,
+	let fixBulletLeft = new RedT.Node({_group: 'fixbox', name:'fixBulletLeft', x:-500, y:0,
 		width: 100,
 		height: 10000});
 	let colliderLeftFixx = new RedT.BoxCollider;
@@ -31,7 +31,7 @@ Home.limitGround = function() {
 	colliderLeftFixx.size.set(fixBulletLeft.getContentSize());
 	fixBulletLeft.addComponent(colliderLeftFixx);
 
-	let fixBulletRight = new RedT.Node({_group: 'ground', name:'fixBulletRight', x:3398, y:0,
+	let fixBulletRight = new RedT.Node({_group: 'fixbox', name:'fixBulletRight', x:3398, y:0,
 		width: 100,
 		height: 10000});
 	let colliderRightFixx = new RedT.BoxCollider;
