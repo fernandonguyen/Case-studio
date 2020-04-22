@@ -77,8 +77,6 @@ class Player extends RedT.Node {
 		collider.offset.y = this._regY;
 		this.addComponent(collider);
 
-
-		///
 		// thanh lực của người chơi
 		this.lineFire = new RedT.Node({active:false, x:RedT.decorator.canvas.width/2, y:RedT.decorator.canvas.height-30});
 		this.lineFire.addComponent(new RedT.Sprite(RedT.decorator.resources['luc_bg']));
@@ -89,10 +87,33 @@ class Player extends RedT.Node {
 		this.lineFire.addChild(this.luc_fire_bg);
 		this.luc_fire_bg.sprite.mask = 0;
 
-		Home.Game.addChild(this.lineFire);
+		// thanh máu của người chơi
+		this.bg_HP_line = new RedT.Node({active:false});
+		this.bg_HP_line.addComponent(new RedT.Sprite(RedT.decorator.resources['hp_bg']));
+
+		this.lineHP = new RedT.Node({x:1, y:0});
+		this.lineHP.sprite = new RedT.Sprite(RedT.decorator.resources['hp_line'])
+		this.lineHP.addComponent(this.lineHP.sprite);
+		this.bg_HP_line.addChild(this.lineHP);
+		this.lineHP.sprite.mask = 1;
+
+		this.bg_HP_line.scale = 0.7;
+
+		Home.Game.addChild(this.lineFire, this.bg_HP_line);
+	}
+
+	updateHP() {
+		let hp = this.hp/100;
+		this.lineHP.sprite.mask = hp;
+		if (hp === 0) {
+			// Đắp mộ
+			this.sprite._frameSprite = RedT.decorator.resources['dapmo'];
+			this.y -= 50;
+			this._body.type = 1;
+			this.scale      = 0.7;
+		}
 	}
 	fire(){
-		//Home.cameraStop = true;
 		let bullet      = new Bullet;
 		bullet._group   = this._fireGroup;
 

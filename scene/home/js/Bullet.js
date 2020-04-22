@@ -42,7 +42,17 @@ class Bullet extends RedT.Node {
 		ef.x = c2._node._x;
 		ef.y = c2._node._y;
 
-		console.log(c1._node.name);
+		if (c1._node.name === 'player') {
+			c1._node.hp -= 30;
+			if (c1._node.hp <= 0) {
+				c1._node.hp = 0;
+			}
+		} else if(c2._node.name === 'player') {
+			c2._node.hp -= 30;
+			if (c2._node.hp <= 0) {
+				c2._node.hp = 0;
+			}
+		}
 
 		Home.ground.addChild(ef);
 		this.destroy();

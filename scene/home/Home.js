@@ -50,6 +50,8 @@ this.Home = this.Home || {};
 						this.cameraStop = false;
 						this.isPlay     = true;
 						this.player.onPlay();
+						this.player1.bg_HP_line.active = true;
+						this.player2.bg_HP_line.active = true;
 					}, this),
 				);
 			}.bind(this), 1000);
@@ -90,16 +92,17 @@ this.Home = this.Home || {};
 			x = this.minX;
 		}
 		Home.ground.runAction(
-			RedT.moveTo(0.7, RedT.v2(x, -200)),
-			RedT.delayTime(1),
+			RedT.moveTo(0.4, RedT.v2(x, -200)),
+			RedT.delayTime(0.4),
 			RedT.callFunc(function(){
+				Home.cameraStop = false;
 				this.player.onPlay();
 			}, this),
 		);
 	}
 
 	Home.checkWin = function() {
-		if (this.player1.hp <= 0 || this.player2.hp) {
+		if (this.player1.hp <= 0 || this.player2.hp <= 0) {
 			console.log('Chiến thắng...!');
 		}else{
 			this.changerPlayer();

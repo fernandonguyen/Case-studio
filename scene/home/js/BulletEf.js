@@ -43,17 +43,14 @@ class BulletEf extends RedT.Node {
 		this.scale = 0.5;
 	}
 	onFinishAnimation(){
+		Home.player1.updateHP();
+		Home.player2.updateHP();
 		this.destroy();
 		this._sprite   = null;
 		this.animation = null;
-
-		//Home.cameraStop = false;
-
-		// sau 1s xét thắng thua và chuyển người chơi
 		setTimeout(function() {
-			console.log('check win');
 			Home.checkWin();
-		}, 1000);
+		}, 500);
 	}
 }
 
