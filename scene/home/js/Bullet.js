@@ -35,7 +35,6 @@ class Bullet extends RedT.Node {
 	onCollisionEnter(collider1, collider2){
 		let c1 = collider1._node === this ? collider2 : collider1;
 		let c2 = collider1._node === this ? collider1 : collider2;
-		this._body.type = 2;
 
 		// đạn nổ
 		let ef = new RedT.BulletEf();

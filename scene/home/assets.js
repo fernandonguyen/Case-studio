@@ -4,6 +4,7 @@ Home.assets = [
 	{name:'home_background', src: 'scene/home/images/background.jpg',         type: 'image'},
 	{name:'home_ground',     src: 'scene/home/images/home_ground.png',        type: 'image'},
 	{name:'anim_go_1',       src: 'scene/home/images/players/1/1/go/1.png',   type: 'image'},
+	{name:'player2_go_1',    src: 'scene/home/images/players/2/1/go/1.png',   type: 'image'},
 	{name:'anim_fire_1',     src: 'scene/home/images/players/1/1/fire/1.png', type: 'image'},
 	{name:'dan_5',           src: 'scene/home/images/dan/5.png',              type: 'image'},
 	{name:'tvtl1',           src: 'scene/home/images/dan/tvtl1.png',          type: 'image'},
@@ -41,4 +42,7 @@ Home.assets = [
 	{name:'ef_bullet_bug_22', src: 'scene/home/images/Ef/dan/dcht/griss/22.png', type: 'image'},
 	{name:'ef_bullet_bug_23', src: 'scene/home/images/Ef/dan/dcht/griss/23.png', type: 'image'},
 	{name:'ef_bullet_bug_24', src: 'scene/home/images/Ef/dan/dcht/griss/24.png', type: 'image'},
+
+	// Âm thanh
+
 ];
