@@ -51,7 +51,8 @@ class BulletEf extends RedT.Node {
 
 		// sau 1s xét thắng thua và chuyển người chơi
 		setTimeout(function() {
-			Home.changerPlayer();
+			console.log('check win');
+			Home.checkWin();
 		}, 1000);
 	}
 }

@@ -23,7 +23,14 @@ class Bullet extends RedT.Node {
 		collider.offset.y = this._regY;
 		this.addComponent(collider);
 
+		this.toX = false;
+		this.toY = false;
+
+		this.offset  = RedT.v2();
+		this.offset2 = RedT.v2();
+
 		this.scale = 0.8;
+		Home.controllCamere = false;
 	}
 	onCollisionEnter(collider1, collider2){
 		let c1 = collider1._node === this ? collider2 : collider1;
@@ -35,8 +42,32 @@ class Bullet extends RedT.Node {
 		ef.x = c2._node._x;
 		ef.y = c2._node._y;
 
+		console.log(c1._node.name);
+
 		Home.ground.addChild(ef);
 		this.destroy();
 		this._body = null;
+	}
+	_onChangerX(){
+		if (Home.controllCamere === false && !!this.parent) {
+			let x = this.getX();
+			let canvas = RedT.decorator.canvas;
+			if (this.toX !== true) {
+				if (x >= canvas.width-this._width) {
+					this.toX       = true;
+					this.offset.x  = this._x-Home.ground._x;
+					this.offset2.x = this._x-this.offset.x;
+				}else if (x < this._width*2) {
+					this.toX       = true;
+					this.offset.x  = this._x-Home.ground._x;
+					this.offset2.x = this._x-this.offset.x;
+				}
+			}
+			if (this.toX) {
+				x = this._x-this.offset.x;
+				x = this.offset2.x-(x-this.offset2.x);
+				Home.cameraMoveToX(x);
+			}
+		}
 	}
 }

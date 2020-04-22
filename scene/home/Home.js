@@ -2,11 +2,13 @@
 this.Home = this.Home || {};
 
 (function(Home){
-	Home.isLoadAsset = false;
-	Home.Game        = null;
-	Home.isPlay      = false;
-	Home.cameraStop  = true;
-	Home.player      = null;
+	Home.isLoadAsset    = false;
+	Home.Game           = null;
+	Home.isPlay         = false;
+	Home.cameraStop     = true;
+	Home.player         = null;
+	Home.controllCamere = false;
+
 	Home.init = function() {
 		this.offset = RedT.v2();
 		if (this.Game === null) {
@@ -81,8 +83,14 @@ this.Home = this.Home || {};
 		this.player.onPlay();
 	}
 
+	Home.checkWin = function() {
+		// if (true) {}
+		this.changerPlayer();
+	}
+
 	Home.onMouseStart = function(e) {
 		if (this.cameraStop === false) {
+			this.controllCamere = true;
 			let point = RedT.pointTouch(e);
 			this.offset.x = point.x-this.ground._x;
 			this.offset.y = point.y-this.ground._y;
@@ -91,6 +99,7 @@ this.Home = this.Home || {};
 
 	Home.onMouseMove  = function(e) {
 		if (this.cameraStop === false) {
+			this.controllCamere = true;
 			let point = RedT.pointTouch(e);
 			let x = point.x-this.offset.x;
 			let y = point.y-this.offset.y;
