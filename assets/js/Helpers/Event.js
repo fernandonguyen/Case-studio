@@ -54,7 +54,8 @@ this.RedT = this.RedT || {};
 			let EventNode = this.regEventKeyboard[this.regEventKeyboard.length-1];
 			let listKey = Object.values(this.listKey);
 			listKey.forEach(function(evt){
-				EventNode.setEvent(evt);
+				let type = evt.type;
+				EventNode.setEvent(type, evt);
 			});
 		}
 		if (e.type === 'keyup') {
@@ -71,18 +72,20 @@ this.RedT = this.RedT || {};
 		let type    = e.type;
 		for (let i= 0, l=touches.length; i<l; i++) {
 			let touch = touches[i];
-			let id    = touch.identifier;
-			//console.log(RedT.pointTouch(touch), touch.pageX, touch.pageY);
-			/**
-			if (touch.target != this.decorator.canvas) { continue; }
-			if (type == 'touchstart') {
-				this._handleStart(this.decorator, id, e, touch.pageX, touch.pageY);
-			} else if (type == 'touchmove') {
-				this._handleMove(this.decorator, id, e, touch.pageX, touch.pageY);
-			} else if (type == 'touchend' || type == 'touchcancel') {
-				this._handleEnd(this.decorator, id, e);
+			
+			if (touch.target != this.decorator.canvas) {
+				continue;
 			}
-			*/
+
+			let id    = touch.identifier;
+
+			if (type === 'touchstart') {
+				this._handleStart(id, touch);
+			} else if (type === 'touchmove') {
+				this._handleMove(id, touch);
+			} else if (type === 'touchend' || type == 'touchcancel') {
+				this._handleEnd(id);
+			}
 		}
 	}
 
@@ -91,19 +94,19 @@ this.RedT = this.RedT || {};
 		if (this.preventDefault){
 			e.preventDefault && e.preventDefault();
 		}
-	    let type = e.type;
+		let type = e.type;
 		if (this.impacting !== null) {
-			this.impacting.setEvent(e);
+			this.impacting.setEvent(type, e);
 		}else{
 			let check = false;
 			let i, l = this.regTouch.length;
-	        let point = RedT.pointTouch(e);
+			let point = RedT.pointTouch(e);
 			for(i = l-1; i >= 0; i--){
 				let nodeEvent = this.regTouch[i];
 				let hitTest = RedT.Intersect.pointInPolygon(point, nodeEvent.node.rectPoint());
 				if(hitTest){
 					this.impacting = nodeEvent;
-					this.impacting.setEvent(e);
+					this.impacting.setEvent(type, e);
 					break;
 				}
 			}
@@ -116,15 +119,32 @@ this.RedT = this.RedT || {};
 		}
 	}
 
-	//
-	p._handleStart = function(){
+	// Bắt đầu chạm
+	p._handleStart = function(id, touch){
+		let i, l = this.regTouch.length;
+		let point = RedT.pointTouch(touch);
+		for(i = l-1; i >= 0; i--){
+			let nodeEvent = this.regTouch[i];
+			let hitTest = RedT.Intersect.pointInPolygon(point, nodeEvent.node.rectPoint());
+			if(hitTest){
+				this.idTouch[id] = nodeEvent;
+				nodeEvent.setEvent('touchstart', touch);
+				break;
+			}
+		}
 	}
 
-	//
-	p._handleMove = function(){
+	// Di chuyển
+	p._handleMove = function(id, touch){
+		let check = this.idTouch[id];
+		if (check !== void 0) {
+			check.setEvent('touchmove', touch);
+		}
 	}
-	//
-	p._handleEnd = function(){
+
+	// Kết thúc
+	p._handleEnd = function(id){
+		delete this.idTouch[id];
 	}
 
 	p.add = function(type, EventNode){

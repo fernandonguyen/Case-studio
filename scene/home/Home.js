@@ -75,6 +75,11 @@ this.Home = this.Home || {};
 		this.Game.on('mouseup',   this.onMouseEnd,   this);
 		this.Game.on('keydown',   this.keydown,      this);
 		this.Game.on('keyup',     this.keyup,        this);
+
+		this.Game.on('touchstart',  this.onMouseStart, this);
+		this.Game.on('touchmove',   this.onMouseMove,  this);
+		this.Game.on('touchend',    this.onMouseEnd,   this);
+		this.Game.on('touchcancel', this.onMouseEnd,   this);
 	}
 
 	// Thay đổi lượt chơi
@@ -129,6 +134,7 @@ this.Home = this.Home || {};
 	}
 
 	Home.onMouseStart = function(e) {
+		console.log(e);
 		if (this.cameraStop === false) {
 			this.controllCamere = true;
 			let point = RedT.pointTouch(e);

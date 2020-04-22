@@ -38,8 +38,8 @@ this.RedT = this.RedT || {};
 	}
 
 	// Nhận sự kiện từ trung tâm quản lý sự kiện
-	p.setEvent = function(event){
-		let type     = event.type;
+	p.setEvent = function(type, event){
+
 		let getEvent = this.event[type];
 
 		if (type === 'mousedown') {
