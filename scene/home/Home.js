@@ -103,7 +103,23 @@ this.Home = this.Home || {};
 
 	Home.checkWin = function() {
 		if (this.player1.hp <= 0 || this.player2.hp <= 0) {
-			console.log('Chiến thắng...!');
+			let nodeWin = new RedT.Node({
+				x: RedT.decorator.canvas.width/2,
+				y: RedT.decorator.canvas.height/2,
+				scale: 0.6,
+			});
+			let sprite = new RedT.Sprite(RedT.decorator.resources['win']);
+			nodeWin.addComponent(sprite);
+
+			let nodeThang = new RedT.Node({
+				x: RedT.decorator.canvas.width/2,
+				y: 200,
+				scale: 0.6,
+			});
+			sprite = new RedT.Sprite(RedT.decorator.resources['thang']);
+			nodeThang.addComponent(sprite);
+
+			this.Game.addChild(nodeWin, nodeThang);
 		}else{
 			this.changerPlayer();
 		}

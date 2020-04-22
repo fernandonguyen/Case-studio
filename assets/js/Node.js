@@ -239,7 +239,6 @@ this.RedT = this.RedT || {};
 	p.runAction = function(action){
 		let paramArray = (action instanceof Array) ? action : arguments;
 		this._action = RedT.Action(this, paramArray);
-		console.log(this._action);
 	}
 
 	p.destroyAction = function(){

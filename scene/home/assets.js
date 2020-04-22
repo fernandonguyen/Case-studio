@@ -9,6 +9,12 @@ Home.assets = [
 	{name:'tvtl1',           src: 'scene/home/images/dan/tvtl1.png',          type: 'image'},
 	{name:'luc_bg',          src: 'scene/home/images/luc_bg.png',             type: 'image'},
 	{name:'luc_fire_bg',     src: 'scene/home/images/luc_fire_bg.png',        type: 'image'},
+	{name:'hp_line',         src: 'scene/home/images/hp_line.png',            type: 'image'},
+	{name:'hp_bg',           src: 'scene/home/images/hp_bg.png',              type: 'image'},
+	{name:'dapmo',           src: 'scene/home/images/dapmo.png',              type: 'image'},
+	{name:'thang',           src: 'scene/home/images/thang.png',              type: 'image'},
+	{name:'win',             src: 'scene/home/images/win.png',                type: 'image'},
+
 
 	// Hoạt ảnh đạn nổ
 	{name:'ef_bullet_bug_1',  src: 'scene/home/images/Ef/dan/dcht/griss/1.png',  type: 'image'},
@@ -35,10 +41,4 @@ Home.assets = [
 	{name:'ef_bullet_bug_22', src: 'scene/home/images/Ef/dan/dcht/griss/22.png', type: 'image'},
 	{name:'ef_bullet_bug_23', src: 'scene/home/images/Ef/dan/dcht/griss/23.png', type: 'image'},
 	{name:'ef_bullet_bug_24', src: 'scene/home/images/Ef/dan/dcht/griss/24.png', type: 'image'},
-
-	// Ảnh bot 1
-	{name:'hp_line', src: 'scene/home/images/hp_line.png', type: 'image'},
-	{name:'hp_bg',   src: 'scene/home/images/hp_bg.png',   type: 'image'},
-	{name:'dapmo',   src: 'scene/home/images/dapmo.png',   type: 'image'},
-
 ];
