@@ -19,6 +19,7 @@ Home.createPlayer = function() {
 	this.player2._fireGroup = 'dan2';
 	this.player2.huong      = 'left';
 	this.player2.scaleX     = -1;
+	this.player2._nodeLine.x        = -10;
 	this.player2._nodeLine.rotation = 10;
 	this.player2._lineRotation      = 1;
 	this.player2.x                  = 2530;

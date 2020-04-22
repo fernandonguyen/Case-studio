@@ -29,10 +29,10 @@ class Player extends RedT.Node {
 
 		// Tốc độ chạy lực, điều khiển lực
 		this.isKeySpace      = false;
-		this.forceSpeed      = 0.3;
+		this.forceSpeed      = 0.5;
 		this.currentOldForce = 10;
 		this.currentForce    = 0;
-		this.maxForce        = 45;
+		this.maxForce        = 55;
 		this.minForce        = 0;
 
 		let nodeSprite = new RedT.Node;
