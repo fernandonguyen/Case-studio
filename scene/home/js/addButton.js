@@ -9,8 +9,9 @@ Home.addButton = function() {
 		name: 'btnTop',
 		anchorX: 0,
 		anchorY: 0,
-		x: 140,
-		y: 445,
+		x: 100,
+		y: 440,
+		scale: 0.9,
 	});
 	btnTop.addComponent(new RedT.Sprite(RedT.decorator.resources['btnTop']));
 
@@ -18,8 +19,9 @@ Home.addButton = function() {
 		name: 'btnLeft',
 		anchorX: 0,
 		anchorY: 0,
-		x: 60,
-		y: 485,
+		x: 20,
+		y: 520,
+		scale: 0.9,
 	});
 	btnLeft.addComponent(new RedT.Sprite(RedT.decorator.resources['btnLeft']));
 
@@ -27,8 +29,9 @@ Home.addButton = function() {
 		name: 'btnBottom',
 		anchorX: 0,
 		anchorY: 0,
-		x: 140,
-		y: 525,
+		x: 100,
+		y: 520,
+		scale: 0.9,
 	});
 	btnBottom.addComponent(new RedT.Sprite(RedT.decorator.resources['btnBottom']));
 
@@ -36,8 +39,9 @@ Home.addButton = function() {
 		name: 'btnRight',
 		anchorX: 0,
 		anchorY: 0,
-		x: 220,
-		y: 485,
+		x: 180,
+		y: 520,
+		scale: 0.9,
 	});
 	btnRight.addComponent(new RedT.Sprite(RedT.decorator.resources['btnRight']));
 
@@ -54,6 +58,7 @@ Home.addButton = function() {
 	console.log(btnFire);
 
 	this.Game.addChild(btnTop, btnLeft, btnBottom, btnRight, btnFire);
+	console.log(btnTop, btnLeft, btnBottom, btnRight, btnFire);
 
 	// event btnTop
 	btnTop.on('touchstart',  this.onBtnTop_start, this);
