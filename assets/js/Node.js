@@ -274,11 +274,11 @@ this.RedT = this.RedT || {};
 
 	// Các điểm mô tả hình của note
 	p.rectPoint = function(){
-		this._rect = this._rect || RedT.rect();
+		this._rect   = this._rect || RedT.rect();
 		this._points = this._points || [RedT.v2(), RedT.v2(), RedT.v2(), RedT.v2()];
 
-		this._rect.x      = this.getX();
-		this._rect.y      = this.getY();
+		//this._rect.x      = this.getX();
+		//this._rect.y      = this.getY();
 		this._rect.width  = this._width;
 		this._rect.height = this._height;
 

@@ -84,7 +84,7 @@ this.RedT = this.RedT || {};
 			} else if (type === 'touchmove') {
 				this._handleMove(id, touch);
 			} else if (type === 'touchend' || type == 'touchcancel') {
-				this._handleEnd(id);
+				this._handleEnd(id, touch);
 			}
 		}
 	}
@@ -143,7 +143,11 @@ this.RedT = this.RedT || {};
 	}
 
 	// Kết thúc
-	p._handleEnd = function(id){
+	p._handleEnd = function(id, touch){
+		let check = this.idTouch[id];
+		if (check !== void 0) {
+			check.setEvent('touchend', touch);
+		}
 		delete this.idTouch[id];
 	}
 

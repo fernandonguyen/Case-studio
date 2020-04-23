@@ -52,12 +52,18 @@ this.Home = this.Home || {};
 						this.player.onPlay();
 						this.player1.bg_HP_line.active = true;
 						this.player2.bg_HP_line.active = true;
+
+						// Thên nút bấm cho thiết bị cảm ứng.
+						if (RedT.checkTouch() === true) {
+							this.addButton();
+						}
 					}, this),
 				);
 			}.bind(this), 1000);
 
 			// Tạo âm thanh cho game
 			this.Media();
+
 		}
 		RedT.decorator.Game = this.Game;
 
@@ -134,7 +140,6 @@ this.Home = this.Home || {};
 	}
 
 	Home.onMouseStart = function(e) {
-		console.log(e);
 		if (this.cameraStop === false) {
 			this.controllCamere = true;
 			let point = RedT.pointTouch(e);
@@ -161,23 +166,11 @@ this.Home = this.Home || {};
 			let code = e.keyCode;
 			let isMove = false;
 			if (code === 39 || code === 68) {
-				isMove = true;
-				if (this.player.huong !== 'right') {
-					this.player.huong = 'right';
-					this.player.scaleX = 1;
-					this.player._lineGraphics.node.x = 10;
-					this.player._lineGraphics.node.rotation = this.player._lineGraphics.node.rotation*-1;
-					this.player._lineRotation = -1;
-				}
+				this.player.isKeyDown = true;
+				this.playerTo_right();
 			}else if(code === 37 || code === 65){
-				isMove = true;
-				if (this.player.huong !== 'left') {
-					this.player.huong = 'left';
-					this.player.scaleX = -1;
-					this.player._lineGraphics.node.rotation = this.player._lineGraphics.node.rotation*-1;
-					this.player._lineGraphics.node.x = -10;
-					this.player._lineRotation = 1;
-				}
+				this.player.isKeyDown = true;
+				this.playerTo_left();
 			}
 
 			if(code === 38 || code === 87){
@@ -185,7 +178,6 @@ this.Home = this.Home || {};
 			}else if(code === 40 || code === 83){
 				this.player.keyDownAngle = 0;
 			}
-			this.player.isKeyDown = isMove;
 
 			if (code === 32) {
 				if(this.player.isKeySpace == false){

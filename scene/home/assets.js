@@ -1,3 +1,4 @@
+
 this.Home = this.Home || {};
 
 Home.assets = [
@@ -15,6 +16,15 @@ Home.assets = [
 	{name:'dapmo',           src: 'scene/home/images/dapmo.png',              type: 'image'},
 	{name:'thang',           src: 'scene/home/images/thang.png',              type: 'image'},
 	{name:'win',             src: 'scene/home/images/win.png',                type: 'image'},
+
+
+	// Controll
+	{name:'btnTop',          src: 'scene/home/images/controll/btnTop.png',    type: 'image'},
+	{name:'btnLeft',         src: 'scene/home/images/controll/btnLeft.png',   type: 'image'},
+	{name:'btnBottom',       src: 'scene/home/images/controll/btnBottom.png', type: 'image'},
+	{name:'btnRight',        src: 'scene/home/images/controll/btnRight.png',  type: 'image'},
+	{name:'btnFire',         src: 'scene/home/images/controll/fire.png',      type: 'image'},
+
 
 	// Hoạt ảnh đạn TiVi nổ
 	{name:'ef_bullet_bug_1',  src: 'scene/home/images/Ef/dan/dcht/griss/1.png',  type: 'image'},

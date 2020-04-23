@@ -87,3 +87,8 @@ RedT.ellipse = function(ctx, cx, cy, rx, ry) {
     ctx.bezierCurveTo(cx - rx * RedT.hg, cy - ry, cx - rx, cy - ry * RedT.hg, cx - rx, cy);
     ctx.close();
 }
+
+// Kiểm tra thiết bị có hỗ trợ cảm ứng không
+RedT.checkTouch = function() {
+	return 'ontouchstart' in window;
+}
