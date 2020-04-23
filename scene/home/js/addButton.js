@@ -125,6 +125,7 @@ Home.onBtnRight_end   = function() {
 // event btnFire
 Home.onBtnFire_start = function() {
 	if (this.isPlay && this.player !== null && this.player.yourTurn) {
+		this.touchFire = true;
 		if(this.player.isKeySpace == false){
 			this.sound_changerPow.play();
 		}
@@ -132,7 +133,8 @@ Home.onBtnFire_start = function() {
 	}
 }
 Home.onBtnFire_end   = function() {
-	if (this.isPlay && this.player !== null && this.player.yourTurn) {
+	if (this.isPlay && this.player !== null && this.player.yourTurn && this.touchFire === true) {
+		this.touchFire = false;
 		this.sound_changerPow.stop();
 		this.player.fire();
 		this.player.isKeySpace = false;
